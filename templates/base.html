@@ -1,0 +1,18 @@
+<!doctype HTML>
+<html>
+    <head>
+        <title>Race Tracking</title>
+    </head>
+    <body>
+        {% for message in get_flashed_messages() %}
+            {{ message }}
+        {% endfor %}
+
+        Race Tracking
+        <hr>
+
+        {% block content %} CONTENT IS HERE {% endblock %}
+
+
+    </body>
+</html>
