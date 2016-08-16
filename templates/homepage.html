@@ -1,9 +1,79 @@
-{% extends 'base.html' }
+{% extends 'base.html' %}
 {% block content %}
 
-<h1> HI. You've done something sort of productive today!</h1>
+<h1>My Race Logistics</h1>
 
 
+<form>
+    <label for="field-city">City:</label>
+    <input type="text" name="city" id="field-city">
+</form>
+<form>
+    State:
+        <select name="state">
+            <option value="AL">AL</value>
+            <option value="AK">AK</value>
+            <option value="AZ">AZ</value>
+            <option value="AR">AR</value>
+            <option value="CA">CA</value>
+            <option value="CO">CO</value>
+            <option value="CT">CT</value>
+            <option value="DE">DE</value>
+            <option value="FL">FL</value>
+            <option value="GA">GA</value>
+            <option value="HI">HI</value>
+            <option value="ID">ID</value>
+            <option value="IL">IL</value>
+            <option value="IN">IN</value>
+            <option value="IA">IA</value>
+            <option value="KS">KS</value>
+            <option value="KY">KY</value>
+            <option value="LA">LA</value>
+            <option value="ME">ME</value>
+            <option value="MD">MD</value>
+            <option value="MA">MA</value>
+            <option value="MI">MI</value>
+            <option value="MN">MN</value>
+            <option value="MO">MO</value>
+            <option value="MS">MS</value>
+            <option value="MT">MT</value>
+            <option value="NE">NE</value>
+            <option value="NV">NV</value>
+            <option value="NH">NH</value>
+            <option value="NJ">NJ</value>
+            <option value="NM">NM</value>
+            <option value="NY">NY</value>
+            <option value="NC">NC</value>
+            <option value="ND">ND</value>
+            <option value="OH">OH</value>
+            <option value="OK">OK</value>
+            <option value="OR">OR</value>
+            <option value="PA">PA</value>
+            <option value="RI">RI</value>
+            <option value="SC">SC</value>
+            <option value="SD">SD</value>
+            <option value="TN">TN</value>
+            <option value="TX">TX</value>
+            <option value="UT">UT</value>
+            <option value="VT">VT</value>
+            <option value="VA">VA</value>
+            <option value="WA">WA</value>
+            <option value="WV">WV</value>
+            <option value="WI">WI</value>
+            <option value="WY">WY</value>
+    </select>
+</form>
+<form>
+    <label for="field-zipcode">Zip:</label>
+    <input type="text" name="zipcode" id="field-zipcode">
+</form>
+<form>
+    <label for="field-racedistance">Race Distance:</label>
+    <input type="text" name="racedistance" id="field-racedistance">
+</form>
+<form action="/FIGUREOUTWHERETHISGOESTHANKS" method="GET">
+    <input type="submit">
+</form>
 
 
 
