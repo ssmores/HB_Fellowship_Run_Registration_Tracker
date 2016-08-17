@@ -38,8 +38,8 @@ class Race(db.Model):
     event_city = db.Column(db.String(200), nullable=True)
     event_state = db.Column(db.String(100), nullable=True)
     event_zipcode = db.Column(db.String(20), nullable=True)
-    event_lat = db.Column(db.Integer, nullable=True)
-    event_lng = db.Column(db.Integer, nullable=True)
+    event_lat = db.Column(db.Float, nullable=True)
+    event_lng = db.Column(db.Float, nullable=True)
     # Remove the event_distance.
     # Need an associative table, that has race_id, distrance_type_id, and the association_id.
     # Need a distance_type table.
@@ -47,6 +47,7 @@ class Race(db.Model):
     event_url = db.Column(db.String(1000), nullable=True)
 
     tracked_races = db.relationship('Tracked_Race')
+    race_distance_types = db.relationship('Race_Distance_Type')
 
     def __repr__(self):
         """Provides name, distance, and event date."""
@@ -69,6 +70,7 @@ class Tracked_Race(db.Model):
     email_notification_start_date_at = db.Column(db.DateTime, nullable=True)
     email_notification_end_date_at = db.Column(db.DateTime, nullable=True)
     email_interval = db.Column(db.Integer, nullable=True)
+    need_subsequent_email_indicator = db.Column(db.Boolean, default=False)
 
     user = db.relationship('User')
     race = db.relationship('Race')
@@ -87,13 +89,11 @@ class Email_Transaction(db.Model):
     transaction_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     tracked_race_id = db.Column(db.Integer, db.ForeignKey('tracked_races.tracked_race_id'))
     email_date = db.Column(db.DateTime, nullable=True)
-    need_subsequent_email_indicator = db.Column(db.Boolean, default=False)
-    
-    def __repr__(self):
-        """Email transaction record."""
+        
+    # def __repr__(self):
+    #     """Email transaction record."""
 
-        return "<First email sent: %s. Another email coming: %s>" % (
-            self.email_date, self.need_subsequent_email_indicator)
+    #     return "<First email sent: %s.>" % (self.email_date)
 
 class Distance_Type(db.Model):
     """A race distance."""
@@ -102,6 +102,9 @@ class Distance_Type(db.Model):
 
     distance_type_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     distance_length = db.Column(db.String(100), nullable=True)
+
+    race_distance_types  = db.relationship('Race_Distance_Type')
+
     
     def __repr__(self):
         """Information on distance length."""
@@ -117,10 +120,12 @@ class Race_Distance_Type(db.Model):
     race_distance_type_id = db.Column(db.Integer, 
                                       autoincrement=True, 
                                       primary_key=True)
-    race_id = db.Column(db.Integer, db.ForeignKey('races.race_id'))
+    race_id = db.Column(db.String(400), db.ForeignKey('races.race_id'))
     distance_type_id = db.Column(db.Integer, 
                                  db.ForeignKey('distance_types.distance_type_id'))
 
+    races = db.relationship('Race')
+    distance_types = db.relationship('Distance_Type')
 
 
 

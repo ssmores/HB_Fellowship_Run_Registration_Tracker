@@ -4,14 +4,15 @@
         <title>Race Tracking</title>
     </head>
     <body>
+        Race Tracking
+
+        <a href='/login'>Sign In</a>
+        Log Out
+        <hr>
+
         {% for message in get_flashed_messages() %}
             {{ message }}
         {% endfor %}
-
-        Race Tracking
-        Sign In
-        Log Out
-        <hr>
 
         {% block content %} CONTENT IS HERE {% endblock %}
 
