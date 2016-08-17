@@ -7,7 +7,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db
 from model import (User, Race, Tracked_Race, Email_Transaction, 
-                   Distance_Type, Race_Distance_Type)
+                   Distance_Type, Race_Distance)
 
 import os
 

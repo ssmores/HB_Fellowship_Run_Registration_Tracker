@@ -1,0 +1,558 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: distance_types; Type: TABLE; Schema: public; Owner: vagrant; Tablespace: 
+--
+
+CREATE TABLE distance_types (
+    distance_type_id integer NOT NULL,
+    distance_length character varying(100)
+);
+
+
+ALTER TABLE public.distance_types OWNER TO vagrant;
+
+--
+-- Name: distance_types_distance_type_id_seq; Type: SEQUENCE; Schema: public; Owner: vagrant
+--
+
+CREATE SEQUENCE distance_types_distance_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.distance_types_distance_type_id_seq OWNER TO vagrant;
+
+--
+-- Name: distance_types_distance_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vagrant
+--
+
+ALTER SEQUENCE distance_types_distance_type_id_seq OWNED BY distance_types.distance_type_id;
+
+
+--
+-- Name: email_transactions; Type: TABLE; Schema: public; Owner: vagrant; Tablespace: 
+--
+
+CREATE TABLE email_transactions (
+    transaction_id integer NOT NULL,
+    tracked_race_id integer,
+    email_date timestamp without time zone
+);
+
+
+ALTER TABLE public.email_transactions OWNER TO vagrant;
+
+--
+-- Name: email_transactions_transaction_id_seq; Type: SEQUENCE; Schema: public; Owner: vagrant
+--
+
+CREATE SEQUENCE email_transactions_transaction_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.email_transactions_transaction_id_seq OWNER TO vagrant;
+
+--
+-- Name: email_transactions_transaction_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vagrant
+--
+
+ALTER SEQUENCE email_transactions_transaction_id_seq OWNED BY email_transactions.transaction_id;
+
+
+--
+-- Name: race_distance; Type: TABLE; Schema: public; Owner: vagrant; Tablespace: 
+--
+
+CREATE TABLE race_distance (
+    race_distance_id integer NOT NULL,
+    race_id character varying(400),
+    distance_type_id integer
+);
+
+
+ALTER TABLE public.race_distance OWNER TO vagrant;
+
+--
+-- Name: race_distance_race_distance_id_seq; Type: SEQUENCE; Schema: public; Owner: vagrant
+--
+
+CREATE SEQUENCE race_distance_race_distance_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.race_distance_race_distance_id_seq OWNER TO vagrant;
+
+--
+-- Name: race_distance_race_distance_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vagrant
+--
+
+ALTER SEQUENCE race_distance_race_distance_id_seq OWNED BY race_distance.race_distance_id;
+
+
+--
+-- Name: races; Type: TABLE; Schema: public; Owner: vagrant; Tablespace: 
+--
+
+CREATE TABLE races (
+    race_id character varying(400) NOT NULL,
+    event_name character varying(2000) NOT NULL,
+    event_date timestamp without time zone,
+    event_tzone_offset integer,
+    "event_tzone_DST" integer,
+    event_city character varying(200),
+    event_state character varying(100),
+    event_zipcode character varying(20),
+    event_lat double precision,
+    event_lng double precision,
+    event_url character varying(1000)
+);
+
+
+ALTER TABLE public.races OWNER TO vagrant;
+
+--
+-- Name: tracked_races; Type: TABLE; Schema: public; Owner: vagrant; Tablespace: 
+--
+
+CREATE TABLE tracked_races (
+    tracked_race_id integer NOT NULL,
+    user_id integer,
+    race_id character varying(400),
+    registered_status_indicator boolean,
+    hotel_reserved_indicator boolean,
+    airfare_reserved_indicator boolean,
+    transportation_reserved_indicator boolean,
+    email_notification_start_date_at timestamp without time zone,
+    email_notification_end_date_at timestamp without time zone,
+    email_interval integer,
+    need_subsequent_email_indicator boolean
+);
+
+
+ALTER TABLE public.tracked_races OWNER TO vagrant;
+
+--
+-- Name: tracked_races_tracked_race_id_seq; Type: SEQUENCE; Schema: public; Owner: vagrant
+--
+
+CREATE SEQUENCE tracked_races_tracked_race_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tracked_races_tracked_race_id_seq OWNER TO vagrant;
+
+--
+-- Name: tracked_races_tracked_race_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vagrant
+--
+
+ALTER SEQUENCE tracked_races_tracked_race_id_seq OWNED BY tracked_races.tracked_race_id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: vagrant; Tablespace: 
+--
+
+CREATE TABLE users (
+    user_id integer NOT NULL,
+    user_fname character varying(200) NOT NULL,
+    user_lname character varying(200) NOT NULL,
+    user_email character varying(600) NOT NULL,
+    password character varying(64) NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO vagrant;
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE; Schema: public; Owner: vagrant
+--
+
+CREATE SEQUENCE users_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_user_id_seq OWNER TO vagrant;
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vagrant
+--
+
+ALTER SEQUENCE users_user_id_seq OWNED BY users.user_id;
+
+
+--
+-- Name: distance_type_id; Type: DEFAULT; Schema: public; Owner: vagrant
+--
+
+ALTER TABLE ONLY distance_types ALTER COLUMN distance_type_id SET DEFAULT nextval('distance_types_distance_type_id_seq'::regclass);
+
+
+--
+-- Name: transaction_id; Type: DEFAULT; Schema: public; Owner: vagrant
+--
+
+ALTER TABLE ONLY email_transactions ALTER COLUMN transaction_id SET DEFAULT nextval('email_transactions_transaction_id_seq'::regclass);
+
+
+--
+-- Name: race_distance_id; Type: DEFAULT; Schema: public; Owner: vagrant
+--
+
+ALTER TABLE ONLY race_distance ALTER COLUMN race_distance_id SET DEFAULT nextval('race_distance_race_distance_id_seq'::regclass);
+
+
+--
+-- Name: tracked_race_id; Type: DEFAULT; Schema: public; Owner: vagrant
+--
+
+ALTER TABLE ONLY tracked_races ALTER COLUMN tracked_race_id SET DEFAULT nextval('tracked_races_tracked_race_id_seq'::regclass);
+
+
+--
+-- Name: user_id; Type: DEFAULT; Schema: public; Owner: vagrant
+--
+
+ALTER TABLE ONLY users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_seq'::regclass);
+
+
+--
+-- Data for Name: distance_types; Type: TABLE DATA; Schema: public; Owner: vagrant
+--
+
+COPY distance_types (distance_type_id, distance_length) FROM stdin;
+1	10K
+2	5K
+3	8K
+4	15K
+5	1 Mile
+6	5 Mile
+7	1K
+8	Ultra
+9	Half marathon
+10	Marathon
+11	10 Mile
+\.
+
+
+--
+-- Name: distance_types_distance_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vagrant
+--
+
+SELECT pg_catalog.setval('distance_types_distance_type_id_seq', 11, true);
+
+
+--
+-- Data for Name: email_transactions; Type: TABLE DATA; Schema: public; Owner: vagrant
+--
+
+COPY email_transactions (transaction_id, tracked_race_id, email_date) FROM stdin;
+\.
+
+
+--
+-- Name: email_transactions_transaction_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vagrant
+--
+
+SELECT pg_catalog.setval('email_transactions_transaction_id_seq', 1, false);
+
+
+--
+-- Data for Name: race_distance; Type: TABLE DATA; Schema: public; Owner: vagrant
+--
+
+COPY race_distance (race_distance_id, race_id, distance_type_id) FROM stdin;
+1	6a1e940a-887d-4c78-9727-76be422bf79f	10
+2	6a1e940a-887d-4c78-9727-76be422bf79f	9
+3	6a1e940a-887d-4c78-9727-76be422bf79f	2
+4	d22cffae-c092-45b6-a6ab-9a05c03f12b3	8
+5	d22cffae-c092-45b6-a6ab-9a05c03f12b3	6
+6	d22cffae-c092-45b6-a6ab-9a05c03f12b3	9
+7	d22cffae-c092-45b6-a6ab-9a05c03f12b3	10
+8	4d3e90f9-397b-4411-9640-de5d3c221505	2
+9	4d3e90f9-397b-4411-9640-de5d3c221505	7
+10	4d3e90f9-397b-4411-9640-de5d3c221505	9
+11	4d3e90f9-397b-4411-9640-de5d3c221505	1
+12	5c09cde4-8dc5-4410-aae5-a4d809fe456d	2
+13	5c09cde4-8dc5-4410-aae5-a4d809fe456d	1
+14	5c09cde4-8dc5-4410-aae5-a4d809fe456d	9
+15	26cb4ee5-8aab-449f-9a9d-5e69b505626d	8
+16	26cb4ee5-8aab-449f-9a9d-5e69b505626d	11
+17	26cb4ee5-8aab-449f-9a9d-5e69b505626d	1
+18	26cb4ee5-8aab-449f-9a9d-5e69b505626d	9
+19	26cb4ee5-8aab-449f-9a9d-5e69b505626d	7
+20	26cb4ee5-8aab-449f-9a9d-5e69b505626d	6
+21	26cb4ee5-8aab-449f-9a9d-5e69b505626d	3
+22	26cb4ee5-8aab-449f-9a9d-5e69b505626d	2
+23	26cb4ee5-8aab-449f-9a9d-5e69b505626d	10
+24	26cb4ee5-8aab-449f-9a9d-5e69b505626d	5
+25	26cb4ee5-8aab-449f-9a9d-5e69b505626d	4
+26	ae5d83fb-4c44-48da-973e-e72ea13178df	2
+27	ae5d83fb-4c44-48da-973e-e72ea13178df	9
+28	ae5d83fb-4c44-48da-973e-e72ea13178df	1
+29	5638eedc-6f03-4748-8fd0-35b08611b316	8
+30	5638eedc-6f03-4748-8fd0-35b08611b316	9
+31	5638eedc-6f03-4748-8fd0-35b08611b316	10
+32	5638eedc-6f03-4748-8fd0-35b08611b316	6
+33	c3e8b386-17d7-4390-8367-d0aace4054c9	6
+34	c3e8b386-17d7-4390-8367-d0aace4054c9	9
+35	c3e8b386-17d7-4390-8367-d0aace4054c9	10
+36	c3e8b386-17d7-4390-8367-d0aace4054c9	8
+37	bae8a0cd-bfee-4412-8fdb-1bff48057511	2
+38	bae8a0cd-bfee-4412-8fdb-1bff48057511	1
+39	bae8a0cd-bfee-4412-8fdb-1bff48057511	9
+40	dbd9a4bc-4d78-4eef-bfc3-acafb814d2f2	5
+41	dbd9a4bc-4d78-4eef-bfc3-acafb814d2f2	1
+42	dbd9a4bc-4d78-4eef-bfc3-acafb814d2f2	9
+43	dbd9a4bc-4d78-4eef-bfc3-acafb814d2f2	2
+44	dbd9a4bc-4d78-4eef-bfc3-acafb814d2f2	7
+45	2221851c-de15-425d-ad49-330e15d19fb7	9
+46	2221851c-de15-425d-ad49-330e15d19fb7	2
+47	2221851c-de15-425d-ad49-330e15d19fb7	1
+48	d9ab5107-c201-4df9-8bfc-dbe09e628e51	9
+49	d9ab5107-c201-4df9-8bfc-dbe09e628e51	2
+50	be8ee03c-bbf7-4307-918e-79e60f6e039e	9
+51	be8ee03c-bbf7-4307-918e-79e60f6e039e	1
+52	be8ee03c-bbf7-4307-918e-79e60f6e039e	2
+53	be8ee03c-bbf7-4307-918e-79e60f6e039e	7
+54	8a61b95d-e448-4e63-a316-f41c6b743bfc	9
+55	8a61b95d-e448-4e63-a316-f41c6b743bfc	2
+56	02d2ab48-ffa8-4826-80ed-e56cdc0a9585	8
+57	02d2ab48-ffa8-4826-80ed-e56cdc0a9585	10
+58	02d2ab48-ffa8-4826-80ed-e56cdc0a9585	6
+59	02d2ab48-ffa8-4826-80ed-e56cdc0a9585	9
+60	3f0bf97b-d6b0-405a-83e3-2ac76f993733	8
+61	3f0bf97b-d6b0-405a-83e3-2ac76f993733	10
+62	3f0bf97b-d6b0-405a-83e3-2ac76f993733	9
+63	3f0bf97b-d6b0-405a-83e3-2ac76f993733	6
+64	160d3631-4b56-422a-a89a-38e4aabfccec	9
+65	160d3631-4b56-422a-a89a-38e4aabfccec	1
+66	160d3631-4b56-422a-a89a-38e4aabfccec	8
+67	db6631f5-a4b3-4291-9a65-f98b54470875	10
+68	db6631f5-a4b3-4291-9a65-f98b54470875	8
+69	db6631f5-a4b3-4291-9a65-f98b54470875	6
+70	db6631f5-a4b3-4291-9a65-f98b54470875	9
+71	f349873c-0cc7-4cd6-b7fc-31f02d30d6c1	9
+\.
+
+
+--
+-- Name: race_distance_race_distance_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vagrant
+--
+
+SELECT pg_catalog.setval('race_distance_race_distance_id_seq', 71, true);
+
+
+--
+-- Data for Name: races; Type: TABLE DATA; Schema: public; Owner: vagrant
+--
+
+COPY races (race_id, event_name, event_date, event_tzone_offset, "event_tzone_DST", event_city, event_state, event_zipcode, event_lat, event_lng, event_url) FROM stdin;
+8a61b95d-e448-4e63-a316-f41c6b743bfc	Town's Half Marathon	2016-08-13 07:00:00	-8	1	Oakland	CA	94612	37.8048730000000006	-122.272504999999995	http://www.active.com/oakland-ca/running/distance-running-races/town-s-half-marathon-2016
+3f0bf97b-d6b0-405a-83e3-2ac76f993733	Cinderella Trail Run	2016-05-14 08:00:00	-8	1	Oakland	CA	94602	37.8094809999999981	-122.187655000000007	http://www.active.com/oakland-ca/running/trail-run-races/cinderella-trail-run-2016
+db6631f5-a4b3-4291-9a65-f98b54470875	Canyon Meadow Trail Run	2016-03-20 08:00:00	-8	1	Oakland	CA	94619	37.7983970000000014	-122.152322999999996	http://www.active.com/oakland-ca/running/trail-run-races/canyon-meadow-trail-run-2016
+4a98b950-54cc-4841-b200-d47eb92fca31	Turkey Trot Half Marathon/10k/5k/1k Almost Sold Out…Limit Spaces	2015-11-29 08:00:00	-8	1	Oakland	CA	94601	37.820134000000003	-122.251992999999999	http://www.active.com/oakland-ca/running/distance-running-races/turkey-trot-half-marathon-10k-5k-1k-almost-sold-out-limit-spaces-2015
+4d3e90f9-397b-4411-9640-de5d3c221505	The Turkey Trot Half Marathon/10k/5k/1k Remote, Charity & Extra Medals	2015-11-28 08:00:00	-8	1	Oakland	CA	94612	37.8048280000000005	-122.272480000000002	http://www.active.com/oakland-ca/running/distance-running-trail-heads/the-turkey-trot-half-marathon-10k-5k-1k-remote-charity-and-extra-medals-2015-19232403
+be8ee03c-bbf7-4307-918e-79e60f6e039e	The Turkey Trot Half Marathon/10k/5k/1k Remote, Charity & Extra Medals	2015-11-28 08:00:00	-8	1	Oakland	CA	94601	37.820134000000003	-122.251992999999999	http://www.active.com/oakland-ca/running/distance-running-trail-heads/the-turkey-trot-half-marathon-10k-5k-1k-remote-charity-and-extra-medals-2015
+160d3631-4b56-422a-a89a-38e4aabfccec	Inside Trail Racing Oakland Hills Trail Run	2015-10-17 09:00:00	-8	1	Oakland	CA	94619	37.7983970000000014	-122.152322999999996	http://www.active.com/oakland-ca/running/trail-run-races/inside-trail-racing-oakland-hills-trail-run-2015
+5638eedc-6f03-4748-8fd0-35b08611b316	Cinderella Trail Run	2015-08-15 08:00:00	-8	1	Oakland	CA	94602	37.8094809999999981	-122.187655000000007	http://www.active.com/oakland-ca/running/distance-running-races/cinderella-trail-run-2015
+d9ab5107-c201-4df9-8bfc-dbe09e628e51	Town's Half Marathon & Better Health East Bay 5K	2015-08-15 07:00:00	-8	1	Oakland	CA	94612	37.8057200000000009	-122.272599999999997	http://www.active.com/oakland-ca/running/races/town-s-half-marathon-and-better-health-east-bay-5k-2015
+02d2ab48-ffa8-4826-80ed-e56cdc0a9585	Canyon Meadow Trail Run	2015-06-20 08:00:00	-8	1	Oakland	CA	94619	37.7983970000000014	-122.152322999999996	http://www.active.com/oakland-ca/running/distance-running-races/canyon-meadow-trail-run-2015
+d22cffae-c092-45b6-a6ab-9a05c03f12b3	Cinderella Trail Run	2015-05-09 08:00:00	-8	1	Oakland	CA	94602	37.8095270000000028	-122.186080000000004	http://www.active.com/oakland-ca/running/trail-run-races/cinderella-trail-run-2015
+7a35d9e9-4fb5-4572-9c5d-1cba888c1e38	Race of Love (Mothers Day Race) 13.1/10k/5k/1k Virtual Run, Challenges & Extra Medals	2015-05-09 07:00:00	-8	1	Oakland	CA	94601	37.820134000000003	-122.251992999999999	http://www.active.com/oakland-ca/running/distance-running-races/race-of-love-mothers-day-race-13-1-10k-5k-1k-virtual-run-challenges-and-extra-medals-2015
+ae5d83fb-4c44-48da-973e-e72ea13178df	The Sasquatch Scramble 5K/10K/Half	2015-04-26 07:00:00	-8	1	Oakland	CA	94619	37.7983970000000014	-122.152322999999996	http://www.active.com/oakland-ca/running/distance-running-races/the-sasquatch-scramble-5k-10k-half-2015
+c3e8b386-17d7-4390-8367-d0aace4054c9	Canyon Meadow Trail Run	2015-03-22 08:00:00	-8	1	Oakland	CA	94619	37.7983979999999988	-122.152230000000003	http://www.active.com/oakland-ca/running/trail-run-races/canyon-meadow-trail-run-2015
+6a1e940a-887d-4c78-9727-76be422bf79f	Oakland Running Festival	2015-03-22 00:00:00	-8	1	Oakland	CA	94612	37.8048280000000005	-122.272480000000002	http://www.active.com/oakland-ca/running/distance-running-races/oakland-running-festival-2015
+391971ad-bfb2-4ee5-9571-11d4f373a135	The Race of Love Half Marathon/10k/5k/1k Virtual Race & Challenges	2015-03-01 08:00:00	-8	1	Oakland	CA	94601	37.7775919999999985	-122.218202000000005	http://www.active.com/oakland-ca/running/races/the-race-of-love-half-marathon-10k-5k-1k-virtual-race-and-challenges-2015-11627190
+5c09cde4-8dc5-4410-aae5-a4d809fe456d	Winter Race Half Marathon/10k/5k/1k Virtual Race & Challenge	2015-01-31 08:00:00	-8	1	Oakland	CA	94601	37.8153900000000007	-122.258769000000001	http://www.active.com/oakland-ca/running/distance-running-races/winter-race-half-marathon-10k-5k-1k-virtual-race-and-challenge-2015
+e2e07aed-5f61-4a9e-bdf1-bc7d7e8455d3	The Santa Christmas Race Half Marathon/10k/5k/1k Virtual Race & Challenges	2014-12-27 08:00:00	-8	1	Oakland	CA	94601	37.8153900000000007	-122.258769000000001	http://www.active.com/oakland-ca/running/distance-running-races/the-santa-christmas-race-half-marathon-10k-5k-1k-virtual-race-and-challenges-2014
+2221851c-de15-425d-ad49-330e15d19fb7	(Round 2) The Polar Bear Run - Virtual 5k/10k/Half Marathon (Oakland)	2014-12-20 05:00:00	-8	1	Oakland	CA	94601	37.8048280000000005	-122.272480000000002	http://www.active.com/oakland-ca/running/races/round-2-the-polar-bear-run-virtual-5k-10k-half-marathon-oakland-2014
+26cb4ee5-8aab-449f-9a9d-5e69b505626d	Annual World Run Day - Oakland	2014-11-09 17:00:00	-8	1	Oakland	CA	94603	37.8048280000000005	-122.272480000000002	http://www.active.com/oakland-ca/running/distance-running-races/annual-world-run-day-oakland-2014
+dbd9a4bc-4d78-4eef-bfc3-acafb814d2f2	Halloween Pumpkin Run Half Marathon/10k/5k/1k/1Mile Virtual Run & Challenges (Medal A) Witch hat with multicolored letters	2014-10-31 07:00:00	-8	1	Oakland	CA	94601	37.8213480000000004	-122.248189999999994	http://www.active.com/oakland-ca/running/races/halloween-pumpkin-run-half-marathon-10k-5k-1k-1mile-virtual-run-and-challenges-medal-a-witch-hat-with-multicolored-letters-2014
+e62f7997-5db0-4745-9c70-6562a52be37f	Halloween Pumpkin Run Half Marathon/10k/5k/1k/1Mile Virtual Run & Challenges (Medal B)	2014-10-31 07:00:00	-8	1	Oakland	CA	94601	37.8213480000000004	-122.248189999999994	http://www.active.com/oakland-ca/running/races/halloween-pumpkin-run-half-marathon-10k-5k-1k-1mile-virtual-run-and-challenges-medal-b-2014
+619a4282-81c7-45d3-b2f3-0c6bbf0d1a9a	Green Trails & Run Half Marathon/10k/5k Virtual Race & Challenges	2014-09-28 07:00:00	-8	1	Oakland	CA	94601	37.8213480000000004	-122.248189999999994	http://www.active.com/oakland-ca/running/distance-running-races/green-trails-and-run-half-marathon-10k-5k-virtual-race-and-challenges-2014
+bae8a0cd-bfee-4412-8fdb-1bff48057511	The Chocolate Run (Oakland)	2014-09-27 04:00:00	-8	1	Oakland	CA	94601	37.8048280000000005	-122.272480000000002	http://www.active.com/oakland-ca/running/races/the-chocolate-run-oakland-2014
+f349873c-0cc7-4cd6-b7fc-31f02d30d6c1	The Town's Half Marathon	2014-08-16 08:00:00	-8	1	Oakland	CA	94612	37.8057200000000009	-122.272599999999997	http://www.active.com/oakland-ca/running/distance-running-races/the-town-s-half-marathon-2014
+\.
+
+
+--
+-- Data for Name: tracked_races; Type: TABLE DATA; Schema: public; Owner: vagrant
+--
+
+COPY tracked_races (tracked_race_id, user_id, race_id, registered_status_indicator, hotel_reserved_indicator, airfare_reserved_indicator, transportation_reserved_indicator, email_notification_start_date_at, email_notification_end_date_at, email_interval, need_subsequent_email_indicator) FROM stdin;
+\.
+
+
+--
+-- Name: tracked_races_tracked_race_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vagrant
+--
+
+SELECT pg_catalog.setval('tracked_races_tracked_race_id_seq', 1, false);
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: vagrant
+--
+
+COPY users (user_id, user_fname, user_lname, user_email, password) FROM stdin;
+\.
+
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vagrant
+--
+
+SELECT pg_catalog.setval('users_user_id_seq', 1, false);
+
+
+--
+-- Name: distance_types_pkey; Type: CONSTRAINT; Schema: public; Owner: vagrant; Tablespace: 
+--
+
+ALTER TABLE ONLY distance_types
+    ADD CONSTRAINT distance_types_pkey PRIMARY KEY (distance_type_id);
+
+
+--
+-- Name: email_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: vagrant; Tablespace: 
+--
+
+ALTER TABLE ONLY email_transactions
+    ADD CONSTRAINT email_transactions_pkey PRIMARY KEY (transaction_id);
+
+
+--
+-- Name: race_distance_pkey; Type: CONSTRAINT; Schema: public; Owner: vagrant; Tablespace: 
+--
+
+ALTER TABLE ONLY race_distance
+    ADD CONSTRAINT race_distance_pkey PRIMARY KEY (race_distance_id);
+
+
+--
+-- Name: races_pkey; Type: CONSTRAINT; Schema: public; Owner: vagrant; Tablespace: 
+--
+
+ALTER TABLE ONLY races
+    ADD CONSTRAINT races_pkey PRIMARY KEY (race_id);
+
+
+--
+-- Name: tracked_races_pkey; Type: CONSTRAINT; Schema: public; Owner: vagrant; Tablespace: 
+--
+
+ALTER TABLE ONLY tracked_races
+    ADD CONSTRAINT tracked_races_pkey PRIMARY KEY (tracked_race_id);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: vagrant; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: email_transactions_tracked_race_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: vagrant
+--
+
+ALTER TABLE ONLY email_transactions
+    ADD CONSTRAINT email_transactions_tracked_race_id_fkey FOREIGN KEY (tracked_race_id) REFERENCES tracked_races(tracked_race_id);
+
+
+--
+-- Name: race_distance_distance_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: vagrant
+--
+
+ALTER TABLE ONLY race_distance
+    ADD CONSTRAINT race_distance_distance_type_id_fkey FOREIGN KEY (distance_type_id) REFERENCES distance_types(distance_type_id);
+
+
+--
+-- Name: race_distance_race_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: vagrant
+--
+
+ALTER TABLE ONLY race_distance
+    ADD CONSTRAINT race_distance_race_id_fkey FOREIGN KEY (race_id) REFERENCES races(race_id);
+
+
+--
+-- Name: tracked_races_race_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: vagrant
+--
+
+ALTER TABLE ONLY tracked_races
+    ADD CONSTRAINT tracked_races_race_id_fkey FOREIGN KEY (race_id) REFERENCES races(race_id);
+
+
+--
+-- Name: tracked_races_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: vagrant
+--
+
+ALTER TABLE ONLY tracked_races
+    ADD CONSTRAINT tracked_races_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

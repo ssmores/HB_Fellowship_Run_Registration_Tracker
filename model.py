@@ -47,7 +47,7 @@ class Race(db.Model):
     event_url = db.Column(db.String(1000), nullable=True)
 
     tracked_races = db.relationship('Tracked_Race')
-    race_distance_types = db.relationship('Race_Distance_Type')
+    race_distances = db.relationship('Race_Distance')
 
     def __repr__(self):
         """Provides name, distance, and event date."""
@@ -103,7 +103,7 @@ class Distance_Type(db.Model):
     distance_type_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     distance_length = db.Column(db.String(100), nullable=True)
 
-    race_distance_types  = db.relationship('Race_Distance_Type')
+    race_distances  = db.relationship('Race_Distance')
 
     
     def __repr__(self):
@@ -112,12 +112,12 @@ class Distance_Type(db.Model):
         return "<The %s distance length.>" % (self.distance_length)
 
 
-class Race_Distance_Type(db.Model):
+class Race_Distance(db.Model):
     """Information on a race's distance(s)."""
 
-    __tablename__ = 'race_distance_types'
+    __tablename__ = 'race_distance'
 
-    race_distance_type_id = db.Column(db.Integer, 
+    race_distance_id = db.Column(db.Integer, 
                                       autoincrement=True, 
                                       primary_key=True)
     race_id = db.Column(db.String(400), db.ForeignKey('races.race_id'))
