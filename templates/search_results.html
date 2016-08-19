@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+Here are the races that meet your parameters:
+
+<ul>
+    {% for result in results %}
+    <li> <a href="/search_results/{{result.race_id}}">{{ result.event_name }}</a></li>
+    {% endfor %}
+</ul>
+
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div>These are your logistics for {{ tracked_race.race.event_name }}:
+    <ul>
+        <li>Did you register for this race  yet?  {{tracked_race.registered_status_indicator }} 
+        </li>
+        <li>Did you reserve your hotel yet? {{ tracked_race.hotel_reserved_indicator }}
+        </li>
+        <li>Did you book your airfare yet? {{ tracked_race.airfare_reserved_indicator}}
+        </li>
+
+
+
+</div>
+
+{% endblock %}

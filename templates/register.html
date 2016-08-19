@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<p>
+    Thanks for your interest!  Please complete the fields below to register.
+</p>
+<form action='/register' method='POST'>
+    <label for='field-first-name'>First Name:</label>
+    <input type='text' name='user-first-name' id='field-first-name'></input>
+    <br>
+    <label for='field-last-name'>Last Name:</label>
+    <input type='text' name='user-last-name' id='field-last-name'></input>
+    <br>
+    <label for="field-user-email">User Email:</label>
+    <input type='text' name='user-email' id='field-user-email'></input>
+    <br>
+    <label for='field-password'>Password:</label>
+    <input type='password' name='password' id='field-password'></input>
+    <br>
+<!--     <label for='field-password-confirm'>Retype your password:</label>
+    <input type='password' name='password-confirmation' id='field-password-confirm'></input> -->
+    
+    <br>
+
+    <input type='submit' value="Register"></input>
+</form>
+
+
+
+{% endblock %}

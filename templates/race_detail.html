@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>{{ event_name }} </h2>
+
+<div>This race is located at {{ event_city }}, {{ event_state }} {{ event_zipcode}}.</div>
+
+<div>The race starts at {{ event_date }}, which is at {{ event_tzone_offset - event_tzone_DST }} from UTC.
+</div>
+
+<div>
+{% if 'logged_in_user_email' in session %}
+    <a href='/add_race/{{ race_id }}'>Click to Track This Race!</a>
+{% endif %}
+</div>
+
+{% endblock %}
