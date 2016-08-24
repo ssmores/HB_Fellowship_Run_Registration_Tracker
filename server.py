@@ -100,19 +100,23 @@ def login_screen():
 def show_user_info(user_id):
     """Show user information."""
 
-    user_details = User.query.filter(User.user_id == user_id).one()
-    user_fname = user_details.user_fname
-    user_lname = user_details.user_lname
-    user_email = user_details.user_email
-    tracked_races = user_details.tracked_races
-    print tracked_races
+    if 'user_id' in session:
+        user_details = User.query.filter(User.user_id == user_id).one()
+        user_fname = user_details.user_fname
+        user_lname = user_details.user_lname
+        user_email = user_details.user_email
+        tracked_races = user_details.tracked_races
+        print tracked_races
 
-    return render_template('user_detail.html',
-                           user_fname=user_fname,
-                           user_lname=user_lname,
-                           user_email=user_email,
-                           user_id=user_id,
-                           tracked_races=tracked_races)
+        return render_template('user_detail.html',
+                               user_fname=user_fname,
+                               user_lname=user_lname,
+                               user_email=user_email,
+                               user_id=user_id,
+                               tracked_races=tracked_races)
+    else:
+        flash('You are not logged in!')
+        return redirect('/login')
 
 
 @app.route('/tracked_race_logistics/<race_id>')
@@ -123,7 +127,7 @@ def show_tracked_race_details(race_id):
 
     tracked_race = Tracked_Race.query.filter(
         Tracked_Race.race_id == race_id, 
-        Tracked_Race.user_id == user_id ).one()
+        Tracked_Race.user_id == user_id).one()
 
     return render_template('tracked_race_logistics.html',
                            tracked_race=tracked_race)
@@ -180,6 +184,9 @@ def add_tracked_race(race_id):
     race = race_id
     user = session['user_id']
 
+    print "start"
+    print race, user
+
     q = Tracked_Race.query
     verify_race = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first() 
 
@@ -187,12 +194,56 @@ def add_tracked_race(race_id):
         tracked_race = Tracked_Race(user_id=user, race_id=race)
         db.session.add(tracked_race)
         db.session.commit()
-        flash("Race added! What about these other things?")
+        flash('Race added! What about these other things?')
         return render_template('tracked_race_logistics.html',
                                tracked_race=tracked_race) 
     else:
         flash("You are already tracking this race!")
         return redirect('tracked_race_logistics.html')
+
+
+@app.route('/update_race_status/<race_id>')
+def update_race_status(race_id):
+    """Updates race status upon user selection."""
+
+    race = race_id
+    user = session['user_id']
+
+    q = Tracked_Race.query
+    current_race = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first()
+
+    current_race_registration = current_race.registered_status_indicator
+
+    if current_race_registration == True:
+        current_race.registered_status_indicator = False
+        db.session.commit()
+        return "False"
+    else:
+        current_race.registered_status_indicator = True
+        db.session.commit()
+        return "True"
+
+@app.route('/update_hotel_status/<race_id>')
+def update_hotel_status(race_id):
+    """Updates hotel status upon user selection."""
+
+    race = race_id
+    user = session['user_id']
+
+    q = Tracked_Race.query
+    current_hotel = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first()
+
+    current_hotel_status = current_hotel.hotel_reserved_indicator
+
+    if current_hotel_status == True:
+        current_hotel.hotel_reserved_indicator = False
+        db.session.commit()
+        return "False"
+    else:
+        current_hotel.hotel_reserved_indicator = True
+        db.session.commit()
+        return "True"
+    
 
 
 @app.route('/logout')
@@ -201,7 +252,7 @@ def log_out():
 
     session.pop('logged_in_user_email', None)
     session.pop('user_id', None)
-    flash("You are now logged out.")
+    flash('You are now logged out.')
     return redirect('/login')
 
 

@@ -1,18 +1,46 @@
 {% extends 'base.html' %}
 {% block content %}
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="/static/js/update-logistics.js"></script>
 
+<input id="race-id" type="hidden" name="race-id" value="{{ tracked_race.race_id }}">
 
-<div>These are your logistics for {{ tracked_race.race.event_name }}:
+<div>These are your logistics for: {{ tracked_race.race.event_name }}:
     <ul>
-        <li>Did you register for this race  yet?  {{tracked_race.registered_status_indicator }} 
+        <li>Did you register for this race yet?  
+            <ul>
+                <li id="race-status">{{ tracked_race.registered_status_indicator }} 
+                <label for="update-race-registration">
+                    <input type="button" name="update-race-registration" id="update-race-registration" value="Update race status!" onclick="updateRaceRegistration()">
+                </label>
+                </li>
+            </ul>          
         </li>
-        <li>Did you reserve your hotel yet? {{ tracked_race.hotel_reserved_indicator }}
+        <li>Did you reserve your hotel yet?
+            <ul>
+                <li id="hotel-status">{{ tracked_race.hotel_reserved_indicator }}             
+                <label for="update-hotel-status">
+                    <input type="button" name="update-hotel-status" id="update-hotel-status" value="Update hotel status" onclick="updateHotelStatus()">
+                </label>
+                </li>
+            </ul>            
         </li>
-        <li>Did you book your airfare yet? {{ tracked_race.airfare_reserved_indicator}}
+        <li>Did you book your airfare yet? {{ tracked_race.airfare_reserved_indicator }}            
+            <label for="update-airfare-status">
+                <input type="button" name="update-airfare-status" id="update-airfare-status" value="Update airfare">
+            </label>
+            
         </li>
-
-
-
+        <li>Did you set your transportation reservations? {{ tracked_race.transportation_reserved_indicator }}            
+            <label for="update-transportation-status">
+                <input type="button" name="update-transportation-status" id="update-transportation-status" value="Update transportation">
+            </label>
+            
+        </li>
+    </ul>
 </div>
+<div>
+    When would you like your first email notification? 
+    {{ tracked_race.email_notification_start_date_at }}
 
 {% endblock %}
