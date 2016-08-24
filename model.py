@@ -81,10 +81,6 @@ class Tracked_Race(db.Model):
         return "<Registered for race: %s>" % (self.registered_status_indicator)
 
 
-
-
-
-
 class Email_Transaction(db.Model):
     """Record of sent emails."""
 

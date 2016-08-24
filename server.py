@@ -231,19 +231,62 @@ def update_hotel_status(race_id):
     user = session['user_id']
 
     q = Tracked_Race.query
-    current_hotel = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first()
+    current_race = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first()
 
-    current_hotel_status = current_hotel.hotel_reserved_indicator
+    current_hotel_status = current_race.hotel_reserved_indicator
 
     if current_hotel_status == True:
-        current_hotel.hotel_reserved_indicator = False
+        current_race.hotel_reserved_indicator = False
         db.session.commit()
         return "False"
     else:
-        current_hotel.hotel_reserved_indicator = True
+        current_race.hotel_reserved_indicator = True
         db.session.commit()
         return "True"
+
     
+@app.route('/update_airfare_status/<race_id>')
+def update_airfare_status(race_id):
+    """Update airfare status upon user selection."""
+
+    race = race_id
+    user = session['user_id']
+
+    q = Tracked_Race.query
+    current_race = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first()
+
+    current_airfare_status = current_race.airfare_reserved_indicator
+
+    if current_airfare_status == True:
+        current_race.airfare_reserved_indicator = False
+        db.session.commit()
+        return "False"
+    else:
+        current_race.airfare_reserved_indicator = True
+        db.session.commit()
+        return "True"
+
+
+@app.route('/update_transportation_status/<race_id>')
+def update_transportation_status(race_id):
+    """Update transportation status upon user selection."""
+
+    race = race_id
+    user = session['user_id']
+
+    q = Tracked_Race.query
+    current_race = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first()
+
+    current_transportation_status = current_race.transportation_reserved_indicator
+
+    if current_transportation_status == True:
+        current_race.transportation_reserved_indicator = False
+        db.session.commit()
+        return "False"
+    else:
+        current_race.transportation_reserved_indicator = True
+        db.session.commit()
+        return "True"
 
 
 @app.route('/logout')
