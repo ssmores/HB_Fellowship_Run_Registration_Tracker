@@ -9,6 +9,8 @@ from model import connect_to_db, db
 from model import (User, Race, Tracked_Race, Email_Transaction, 
                    Distance_Type, Race_Distance)
 
+from datetime import datetime
+
 import os
 
 key = os.environ['FLASK_SECRET']
@@ -129,8 +131,11 @@ def show_tracked_race_details(race_id):
         Tracked_Race.race_id == race_id, 
         Tracked_Race.user_id == user_id).one()
 
+    timestamp = datetime.utcnow()
+
     return render_template('tracked_race_logistics.html',
-                           tracked_race=tracked_race)
+                           tracked_race=tracked_race,
+                           timestamp=timestamp)
 
 
 @app.route('/search_results', methods=['GET'])
@@ -202,7 +207,7 @@ def add_tracked_race(race_id):
         return redirect('tracked_race_logistics.html')
 
 
-@app.route('/update_race_status/<race_id>')
+@app.route('/update_race_status/<race_id>', methods=['POST'])
 def update_race_status(race_id):
     """Updates race status upon user selection."""
 
@@ -223,7 +228,7 @@ def update_race_status(race_id):
         db.session.commit()
         return "True"
 
-@app.route('/update_hotel_status/<race_id>')
+@app.route('/update_hotel_status/<race_id>', methods=['POST'])
 def update_hotel_status(race_id):
     """Updates hotel status upon user selection."""
 
@@ -245,7 +250,7 @@ def update_hotel_status(race_id):
         return "True"
 
     
-@app.route('/update_airfare_status/<race_id>')
+@app.route('/update_airfare_status/<race_id>', methods=['POST'])
 def update_airfare_status(race_id):
     """Update airfare status upon user selection."""
 
@@ -267,7 +272,7 @@ def update_airfare_status(race_id):
         return "True"
 
 
-@app.route('/update_transportation_status/<race_id>')
+@app.route('/update_transportation_status/<race_id>', methods=['POST'])
 def update_transportation_status(race_id):
     """Update transportation status upon user selection."""
 
@@ -287,6 +292,71 @@ def update_transportation_status(race_id):
         current_race.transportation_reserved_indicator = True
         db.session.commit()
         return "True"
+
+
+@app.route('/update_email_start_date/<race_id>', methods=['POST'])
+def update_email_start_date(race_id):
+    """Update email start date based upon user selection."""
+
+    race = race_id
+    user = session['user_id']
+
+    q = Tracked_Race.query
+    current_race = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first()
+
+    email_start_date = current_race.email_notification_start_date_at
+
+    start_date = request.form.get('start_date')
+
+    new_start_date = datetime.strptime(start_date, '%Y-%m-%d')
+
+    current_race.email_notification_start_date_at = new_start_date
+    db.session.commit()
+    
+    return start_date
+
+
+@app.route('/update_email_end_date/<race_id>', methods=['POST'])
+def update_email_end_date(race_id):
+    """Update email end date based upon user selection."""
+
+    race = race_id
+    user = session['user_id']
+
+    q = Tracked_Race.query
+    current_race = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first()
+
+    email_end_date = current_race.email_notification_end_date_at
+
+    end_date = request.form.get('end_date')
+
+    new_end_date = datetime.strptime(end_date, '%Y-%m-%d')
+
+    current_race.email_notification_end_date_at = new_end_date
+    db.session.commit()
+    
+    return end_date
+
+
+@app.route('/update_email_interval/<race_id>', methods=['POST'])
+def update_email_interval(race_id):
+    """Update email reminder interval (in hours) based upon user selection."""
+
+    race = race_id
+    user = session['user_id']
+
+    q = Tracked_Race.query
+    current_race = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first()
+
+    email_interval = current_race.email_interval
+
+    new_email_interval = int(request.form.get('hour_frequency'))
+
+    current_race.email_interval = new_email_interval
+    db.session.commit()
+    
+    return str(new_email_interval)
+
 
 
 @app.route('/logout')

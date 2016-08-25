@@ -1,41 +1,43 @@
 {% extends 'base.html' %}
 {% block content %}
-<script src="https://code.jquery.com/jquery.js"></script>
-<script src="/static/js/update-logistics.js"></script>
+
 
 <input id="race-id" type="hidden" name="race-id" value="{{ tracked_race.race_id }}">
 
-<div style="margin-top: 20px;">These are your logistics for: {{ tracked_race.race.event_name }}:
+<div style="margin-top: 20px;">These are your logistics for: {{ tracked_race.race.event_name }}.  The event is {{ tracked_race.race.event_date }}.  Today is {{ timestamp }}.
     <table style="margin-top: 20px;" border="0">
         <tr>
-            <td>Logistics</td>
-            <td>Booked?</td>
-            <td>Change in status?</td>
+            <th>Logistics</th>
+            <th>Booked?</th>
+            <th>Change in status?</th>
         <tr>
         <tr>
             <td>Race registration?</td>
-            <td id="race-status">{{ tracked_race.registered_status_indicator }}</td>
+            <td id="race-status">{{ tracked_race.registered_status_indicator }}
+            </td>
             <td>
                 <label for="update-race-registration">
-                <input type="button" name="update-race-registration" id="update-race-registration" value="Update!" onclick="updateRaceRegistration()">
+                    <input type="button" name="update-race-registration" id="update-race-registration" value="Update!">
                 </label>
             </td>
         </tr>
         <tr>
             <td>Hotel reserved?</td>
-            <td id="hotel-status">{{ tracked_race.hotel_reserved_indicator }}</td>
+            <td id="hotel-status">{{ tracked_race.hotel_reserved_indicator }}
+            </td>
             <td>
                 <label for="update-hotel-status">
-                <input type="button" name="update-hotel-status" id="update-hotel-status" value="Update!" onclick="updateHotelStatus()">
+                    <input type="button" name="update-hotel-status" id="update-hotel-status" value="Update!">
                 </label>
             </td>
         </tr>
         <tr>
             <td>Airfare reserved?</td>
-            <td id="airfare-status">{{ tracked_race.airfare_reserved_indicator }}</td>
+            <td id="airfare-status">{{ tracked_race.airfare_reserved_indicator }}
+            </td>
             <td>
                 <label for="update-airfare-status">
-                <input type="button" name="update-airfare-status" id="update-airfare-status" value="Update!" onclick="updateAirfareStatus()">
+                    <input type="button" name="update-airfare-status" id="update-airfare-status" value="Update!">
                 </lable>
             </td>
         </tr>
@@ -44,14 +46,87 @@
             <td id="transportation-status">{{ tracked_race.transportation_reserved_indicator }} </td>
             <td>
                 <label for="transportation-status">
-                <input type="button" name="update-transportation-status" id="update-transportation-status" value="Update!" onclick="updateTransportationStatus()">
+                    <input type="button" name="update-transportation-status" id="update-transportation-status" value="Update!">
                 </label>
             </td>
         </tr>
     </table>
 </div>
 <div>
-    When would you like your first email notification? 
-    {{ tracked_race.email_notification_start_date_at }}
+    <table>
+        <tr>
+            <th>Reminder Information</th>
+            <th>Date, Status, Info</th>
+            <th>New Info?</th>
+            <th>Action?</th>
+        </tr>
+        <tr>
+            <td>First email notification date:
+            </td>
+            <td id='email-start-date'>
+                {% if tracked_race.email_notification_start_date_at == None %}
+                    No start date set.
+                {% else %} 
+                    {{ tracked_race.email_notification_start_date_at }}
+                {% endif %}
+            </td>
+            <td>
+                <label for="update-email-start-date">
+                    <input type="date" name="update-email-start-date" id="update-email-start-date">
+                </label>
+            </td>
+            <td>
+                <label for="update-email-start-date-button">
+                    <input type="button" name="update-email-start-date-button" id="update-email-start-date-button" value="Update!">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Last email notification date:</td>
+            <td id="email-end-date">
+                {% if tracked_race.email_notification_end_date_at == None %}
+                    No end date set.
+                {% else %} 
+                    {{tracked_race.email_notification_start_date_at}}
+                {% endif %}
+            </td>
+            <td>
+                <label for="update-email-end-date">
+                    <input type="date" name="update-email-end-date" id="update-email-end-date">
+                </label>
+            </td>
+            <td>
+                <label for="update-email-end-date-button">
+                    <input type="button" name="update-email-end-date-button" id="update-email-end-date-button" value="Update!">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Email Reminder Frequency (in hours):</td>
+            <td id="email-interval">
+                {% if tracked_race.email_interval %}
+                    {{tracked_race.email_interval}}
+                {% else %} 
+                    No hourly interval set.
+                {% endif %}
+            </td>
+            <td>
+                <label for="update-email-interval">
+                    <input type="text" name="update-email-interval" id="update-email-interval">
+                </label>
+            </td>
+            <td>
+                <label for="update-email-interval-button">
+                    <input type="button" name="update-email-interval-button" id="update-email-interval-button" value="Update!">
+                </label>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="/static/js/update-logistics.js"></script>
+
+
 
 {% endblock %}
