@@ -24,7 +24,7 @@ function updateHotel(results) {
 }
 
 
-function updateHotelStatus() {
+function updateHotelStatus(evt) {
     var race_id = $('#race-id').val();
     console.log('update hotel');
     $.post('/update_hotel_status/' + race_id, updateHotel);
@@ -39,7 +39,7 @@ function updateAirfare(results) {
     $('#airfare-status').html(status);
 }
 
-function updateAirfareStatus() {
+function updateAirfareStatus(evt) {
     var race_id = $('#race-id').val();
     console.log('update airfare');
     $.post('/update_airfare_status/' + race_id, updateAirfare);
@@ -49,14 +49,13 @@ $('#update-airfare-status').click(updateAirfareStatus);
 
 
 //Update for transportation.
-
 function updateTransportation(results) {
     var status = results;
     $('#transportation-status').html(status);
 }
 
 
-function updateTransportationStatus() {
+function updateTransportationStatus(evt) {
     var race_id = $('#race-id').val();
     console.log('update transportation');
     $.post('/update_transportation_status/' + race_id, updateTransportation);
@@ -72,7 +71,7 @@ function updateFirstEmail(results) {
     $('#email-start-date').html(status);
 }
 
-function updateEmailStartDate() {
+function updateEmailStartDate(evt) {
     var race_id = $('#race-id').val();
     console.log('update email start date');
     var newStartDate = {
@@ -90,7 +89,7 @@ function updateLastEmail(results) {
     $('#email-end-date').html(status);
 }
 
-function updateEmailEndDate() {
+function updateEmailEndDate(evt) {
     var race_id = $('#race-id').val();
     console.log('update email end date');
     var newEndDate = {
@@ -110,7 +109,7 @@ function updateInterval(results) {
 }
 
 
-function updateEmailInterval() {
+function updateEmailInterval(evt) {
     var race_id = $('#race-id').val()
     console.log('update reminder frequency');
     var emailFrequency = {
@@ -122,19 +121,19 @@ function updateEmailInterval() {
 
 $('#update-email-interval-button').click(updateEmailInterval);
 
-
-//Update status of subsequent emails.
-function updateSubsequentEmail(results) {
+//Update email notification frequency.
+function updateNeedSubsequentEmailIndicator(results) {
     var status = results;
-    $('#subsequent-email-status').html(status);
+    $('#next-email-indicator').html(status);
 }
 
 
-function checkSubsequentEmailStatus() {
-    var race_id = $('#race-id').val();
-    console.log('check status on subsequent emails');
-    $.post('/check_subsequent_email_status/' + race_id, updateSubsequentEmail);
+function updateNeedSubsequentEmail(evt) {
+    var race_id = $('#race-id').val()
+    console.log('update need subsequent email');
+    $.post('/update_need_subsequent_email/' + race_id, updateNeedSubsequentEmailIndicator);
 }
 
 
-$('#check-subsequent-email-status').click(checkSubsequentEmailStatus);
+$('#update-next-email-indicator').click(updateNeedSubsequentEmail);
+

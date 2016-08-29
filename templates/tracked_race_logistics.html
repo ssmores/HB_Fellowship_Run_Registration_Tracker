@@ -3,8 +3,13 @@
 
 
 <input id="race-id" type="hidden" name="race-id" value="{{ tracked_race.race_id }}">
+<p>
+These are your logistics for: {{ tracked_race.race.event_name }}.
+<br>The event is {{ tracked_race.race.event_date }}.  
+<br>Today is {{ timestamp }}.
+</p>
 
-<div style="margin-top: 20px;">These are your logistics for: {{ tracked_race.race.event_name }}.  The event is {{ tracked_race.race.event_date }}.  Today is {{ timestamp }}.
+<div style="margin-top: 20px;">
     <table style="margin-top: 20px;" border="0">
         <tr>
             <th>Logistics</th>
@@ -52,7 +57,7 @@
         </tr>
     </table>
 </div>
-<div>
+<div style="margin-top: 20px;">
     <table>
         <tr>
             <th>Reminder Information</th>
@@ -121,8 +126,24 @@
                 </label>
             </td>
         </tr>
+        <tr>
+            <td>Next email notification:</td>
+            <td id="next-email-indicator">
+                {{ tracked_race.need_subsequent_email_indicator }}
+            </td>
+            <td>
+            </td>
+            <td>
+                <label for="update-next-email-indicator">
+                    <input type="button" name="update-next-email-indicator" id="update-next-email-indicator" value="Update!">
+                </label>
+            </td>
+        </tr>
     </table>
 </div>
+<div>
+    
+
 
 <script src="https://code.jquery.com/jquery.js"></script>
 <script src="/static/js/update-logistics.js"></script>

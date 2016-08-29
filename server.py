@@ -192,6 +192,8 @@ def add_tracked_race(race_id):
     print "start"
     print race, user
 
+    timestamp = datetime.utcnow()
+
     q = Tracked_Race.query
     verify_race = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first() 
 
@@ -201,10 +203,11 @@ def add_tracked_race(race_id):
         db.session.commit()
         flash('Race added! What about these other things?')
         return render_template('tracked_race_logistics.html',
-                               tracked_race=tracked_race) 
+                               tracked_race=tracked_race,
+                               timestamp=timestamp) 
     else:
         flash("You are already tracking this race!")
-        return redirect('tracked_race_logistics.html')
+        return redirect('/users/' + str(user))
 
 
 @app.route('/update_race_status/<race_id>', methods=['POST'])
@@ -356,6 +359,37 @@ def update_email_interval(race_id):
     db.session.commit()
     
     return str(new_email_interval)
+
+
+
+
+@app.route('/update_need_subsequent_email/<race_id>', methods=['POST'])
+def update_need_subsequent_email(race_id):
+    """Updates race status upon user selection."""
+
+    race = race_id
+    user = session['user_id']
+
+    q = Tracked_Race.query
+    current_race = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first()
+
+    current_race_subsequent_email = current_race.need_subsequent_email_indicator
+    current_date = datetime.utcnow()
+    race_date = current_race.race.event_date
+    email_start_date = current_race.email_notification_start_date_at
+    email_end_date = current_race.email_notification_end_date_at
+
+    # When race is before current date, return false
+    if race_date < current_date:
+        return False
+    # If email start date and end date is None, return false
+    elif email_start_date is None and email_end_date is None:
+        return False
+
+    # PUT IN ALL THE REST OF THE CONDITIONS HERE. 
+    return True
+
+
 
 
 
