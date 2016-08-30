@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+
 Here are the races that meet your parameters:
 
 <ul>
@@ -7,6 +8,6 @@ Here are the races that meet your parameters:
     <li> <a href="/search_results/{{result.race_id}}">{{ result.event_name }}</a></li>
     {% endfor %}
 </ul>
-
+{% endif %}
 
 {% endblock %}

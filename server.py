@@ -13,11 +13,29 @@ from datetime import datetime
 
 import os
 
+
+
 key = os.environ['FLASK_SECRET']
 
 app = Flask(__name__)
 app.secret_key = key
 app.jinja_env.undefined = StrictUndefined
+
+# # Information for emailing reminders. To implement later.
+# email_adr = os.environ['MAIL_USERNAME']
+# email_pwd = os.environ['MAIL_PASSWORD']
+
+# # email configuration, based on Google settings
+# app.config.update(DEBUG = True,
+#                   MAIL_SERVER = 'smtp.gmail.com',
+#                   MAIL_PORT = 465,
+#                   MAIL_USE_SSL = False,
+#                   MAIL_USE_TLS = True,
+#                   MAIL_USERNAME = email_adr,
+#                   MAIL_PASSWORD = email_pwd)
+# mail = Mail(app)
+
+
 
 @app.route('/')
 def show_homepage():
@@ -151,7 +169,15 @@ def show_races():
     print city, state, zipcode, distance
 
     q = Race.query
-    results = q.filter(Race.event_city == city).all()
+    results = q.filter(db.or_(Race.event_city == city, 
+                              Race.event_state == state)).all()
+                              # Race.event_zipcode == zipcode,
+                              # Race.race_distances.distance_types.distance_length == distance)).all()
+    
+
+    if results == []:
+        flash("No matching race results!")
+        return redirect('/')
 
     return render_template ('search_results.html',
                             results=results)
@@ -197,7 +223,7 @@ def add_tracked_race(race_id):
     q = Tracked_Race.query
     verify_race = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first() 
 
-    if verify_race == None:
+    if verify_race is None:
         tracked_race = Tracked_Race(user_id=user, race_id=race)
         db.session.add(tracked_race)
         db.session.commit()
