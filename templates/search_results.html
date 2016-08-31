@@ -3,11 +3,22 @@
 
 Here are the races that meet your parameters:
 
-<ul>
+<table style="margin-top: 20px;" border="1">
+    <tr>
+        <th>Race Name</th>
+        <th>Date</th>
+    </tr>
+
     {% for result in results %}
-    <li> <a href="/search_results/{{result.race_id}}">{{ result.event_name }}</a></li>
+    <tr>
+        <td> <a href="/search_results/{{result.race_id}}">{{ result.event_name }}</a>
+        </td>
+        <td>{{ result.event_date }}
+        </td>
+    </tr>
     {% endfor %}
-</ul>
-{% endif %}
+
+</table>
+
 
 {% endblock %}

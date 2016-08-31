@@ -75,9 +75,9 @@ def create_new_user():
         db.session.add(user)
         db.session.commit()
         flash('You have been created!')
-        session['logged_in_user_email'] = user_email
+        session['user_id'] = user.user_id
         user_url_id = str(user.user_id)
-        return render_template('/users/' + user_url_id)
+        return redirect('/users/' + user_url_id)
 
 
 @app.route('/login', methods=['GET'])
@@ -102,7 +102,6 @@ def login_screen():
     if dbuser:
         if dbuser.password == password:
             flash('Log in successful!')
-            session['logged_in_user_email'] = user_email
 
             user_url_id = dbuser.user_id
             session['user_id'] = user_url_id
@@ -165,16 +164,25 @@ def show_races():
     zipcode = request.args.get('zipcode')
     distance = request.args.get('racedistance')
 
-
-    print city, state, zipcode, distance
-
-    q = Race.query
-    results = q.filter(db.or_(Race.event_city == city, 
-                              Race.event_state == state)).all()
-                              # Race.event_zipcode == zipcode,
-                              # Race.race_distances.distance_types.distance_length == distance)).all()
+    # q = Race.query
+    # results = q.filter(db.or_(Race.event_city == city, 
+    #                           Race.event_state == state,
+    #                           Race.event_zipcode == zipcode,
+    #                           Distance_Type.distance_length == distance)).all()
     
+    # This query will allow for searches on the Race table based what input the user provided.
+    q = (db.session.query(Race)
+        .join(Race_Distance)
+        .join(Distance_Type)
+        .filter(db.or_(
+            Race.event_city == city,
+            Race.event_state == state,
+            Race.event_zipcode == zipcode,
+            Distance_Type.distance_length == distance)))
 
+    # This will order by the race event date.
+    results = q.order_by(Race.event_date.asc()).all() 
+   
     if results == []:
         flash("No matching race results!")
         return redirect('/')
@@ -197,6 +205,8 @@ def show_race_details(race_id):
     event_tzone_DST = race_detail.event_tzone_DST
     event_tzone_offset = race_detail.event_tzone_offset
 
+    distances = Race_Distance.query.filter(Race_Distance.race_id == race_id).all()
+
     return render_template('race_detail.html', 
                            event_name=event_name,
                            event_city=event_city,
@@ -205,7 +215,8 @@ def show_race_details(race_id):
                            event_date=event_date,
                            event_tzone_DST=event_tzone_DST,
                            event_tzone_offset=event_tzone_offset,
-                           race_id=race_id)
+                           race_id=race_id,
+                           distances=distances)
 
 
 @app.route('/add_race/<race_id>')
@@ -214,9 +225,6 @@ def add_tracked_race(race_id):
 
     race = race_id
     user = session['user_id']
-
-    print "start"
-    print race, user
 
     timestamp = datetime.utcnow()
 
@@ -234,6 +242,9 @@ def add_tracked_race(race_id):
     else:
         flash("You are already tracking this race!")
         return redirect('/users/' + str(user))
+
+
+
 
 
 @app.route('/update_race_status/<race_id>', methods=['POST'])
@@ -256,6 +267,7 @@ def update_race_status(race_id):
         current_race.registered_status_indicator = True
         db.session.commit()
         return "True"
+
 
 @app.route('/update_hotel_status/<race_id>', methods=['POST'])
 def update_hotel_status(race_id):
@@ -423,7 +435,6 @@ def update_need_subsequent_email(race_id):
 def log_out():
     """Log out page."""
 
-    session.pop('logged_in_user_email', None)
     session.pop('user_id', None)
     flash('You are now logged out.')
     return redirect('/login')
