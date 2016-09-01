@@ -52,7 +52,7 @@ def show_registration():
     return render_template('register.html')
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/user/new', methods=['POST'])
 def create_new_user():
     """Page for new user registration."""
 
@@ -256,13 +256,11 @@ def send_email_notiification(race_id):
     user_fname = user_details.user_fname
 
     # Get information about race to send in email.
-
     race_detail = Tracked_Race.query.filter(Tracked_Race.race_id == race).one()
     race_name = race_detail.race.event_name
     event_date = race_detail.race.event_date
 
-    # Email function to be called at various times.
-    
+    # Email function to be called.
     msg = Message('Tracking new race!',
                   sender=EMAIL_ADR, 
                   recipients=[user_email])
@@ -405,52 +403,52 @@ def update_email_end_date(race_id):
     
     return end_date
 
+# For future development.
+# @app.route('/update_email_interval/<race_id>', methods=['POST'])
+# def update_email_interval(race_id):
+#     """Update email reminder interval (in hours) based upon user selection."""
 
-@app.route('/update_email_interval/<race_id>', methods=['POST'])
-def update_email_interval(race_id):
-    """Update email reminder interval (in hours) based upon user selection."""
+#     race = race_id
+#     user = session['user_id']
 
-    race = race_id
-    user = session['user_id']
+#     q = Tracked_Race.query
+#     current_race = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first()
 
-    q = Tracked_Race.query
-    current_race = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first()
+#     email_interval = current_race.email_interval
 
-    email_interval = current_race.email_interval
+#     new_email_interval = int(request.form.get('hour_frequency'))
 
-    new_email_interval = int(request.form.get('hour_frequency'))
-
-    current_race.email_interval = new_email_interval
-    db.session.commit()
+#     current_race.email_interval = new_email_interval
+#     db.session.commit()
     
-    return str(new_email_interval)
+#     return str(new_email_interval)
 
 
-@app.route('/update_need_subsequent_email/<race_id>', methods=['POST'])
-def update_need_subsequent_email(race_id):
-    """Updates race status upon user selection."""
+# @app.route('/update_need_subsequent_email/<race_id>', methods=['POST'])
+# def update_need_subsequent_email(race_id):
+#     """Updates race status upon user selection."""
 
-    race = race_id
-    user = session['user_id']
+#     race = race_id
+#     user = session['user_id']
 
-    q = Tracked_Race.query
-    current_race = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first()
+#     q = Tracked_Race.query
+#     current_race = q.filter(Tracked_Race.user_id == user, Tracked_Race.race_id == race).first()
 
-    current_race_subsequent_email = current_race.need_subsequent_email_indicator
-    current_date = datetime.utcnow()
-    race_date = current_race.race.event_date
-    email_start_date = current_race.email_notification_start_date_at
-    email_end_date = current_race.email_notification_end_date_at
+#     current_race_subsequent_email = current_race.need_subsequent_email_indicator
+#     current_date = datetime.utcnow()
+#     race_date = current_race.race.event_date
+#     email_start_date = current_race.email_notification_start_date_at
+#     email_end_date = current_race.email_notification_end_date_at
 
-    # When race is before current date, return false
-    if race_date < current_date:
-        return False
-    # If email start date and end date is None, return false
-    elif email_start_date is None and email_end_date is None:
-        return False
+#     # When race is before current date, return false
+#     if race_date < current_date:
+#         return False
+#     # If email start date and end date is None, return false
+#     elif email_start_date is None and email_end_date is None:
+#         return False
 
-    # PUT IN ALL THE REST OF THE CONDITIONS HERE. 
-    return True
+#     # PUT IN ALL THE REST OF THE CONDITIONS HERE. 
+#     return True
 
 
 @app.route('/logout')
@@ -462,7 +460,7 @@ def log_out():
     return redirect('/login')
 
 
-
+##############################################
 if __name__ == "__main__":
     app.debug = True
     connect_to_db(app)

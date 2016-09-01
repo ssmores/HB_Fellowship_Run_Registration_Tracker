@@ -101,41 +101,41 @@ function updateEmailEndDate(evt) {
 
 $('#update-email-end-date-button').click(updateEmailEndDate);
 
+//Feature to be implemeted at a later time.
 //Update email notification frequency.
-
-function updateInterval(results) {
-    var status = results;
-    $('#email-interval').html(status);
-}
-
-
-function updateEmailInterval(evt) {
-    var race_id = $('#race-id').val()
-    console.log('update reminder frequency');
-    var emailFrequency = {
-        'hour_frequency': $('#update-email-interval').val()
-    }
-    $.post('/update_email_interval/' + race_id, emailFrequency, updateInterval);
-}
+// function updateInterval(results) {
+//     var status = results;
+//     $('#email-interval').html(status);
+// }
 
 
-$('#update-email-interval-button').click(updateEmailInterval);
+// function updateEmailInterval(evt) {
+//     var race_id = $('#race-id').val()
+//     console.log('update reminder frequency');
+//     var emailFrequency = {
+//         'hour_frequency': $('#update-email-interval').val()
+//     }
+//     $.post('/update_email_interval/' + race_id, emailFrequency, updateInterval);
+// }
+
+
+// $('#update-email-interval-button').click(updateEmailInterval);
 
 //Update email notification frequency.
-function updateNeedSubsequentEmailIndicator(results) {
-    var status = results;
-    $('#next-email-indicator').html(status);
-}
+// function updateNeedSubsequentEmailIndicator(results) {
+//     var status = results;
+//     $('#next-email-indicator').html(status);
+// }
 
 
-function updateNeedSubsequentEmail(evt) {
-    var race_id = $('#race-id').val();
-    console.log('update need subsequent email');
-    $.post('/update_need_subsequent_email/' + race_id, updateNeedSubsequentEmailIndicator);
-}
+// function updateNeedSubsequentEmail(evt) {
+//     var race_id = $('#race-id').val();
+//     console.log('update need subsequent email');
+//     $.post('/update_need_subsequent_email/' + race_id, updateNeedSubsequentEmailIndicator);
+// }
 
 
-$('#update-next-email-indicator').click(updateNeedSubsequentEmail);
+// $('#update-next-email-indicator').click(updateNeedSubsequentEmail);
 
 
 
