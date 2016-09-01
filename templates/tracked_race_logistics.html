@@ -107,6 +107,14 @@ These are your logistics for: {{ tracked_race.race.event_name }}.
             </td>
         </tr>
         <tr>
+            <td>Send email now!</td>
+            <td>
+                <label for="email_-otification-button">
+                    <input type="button" name="email-notification-button" id="email-notification-button" value="Send!">
+                </label>
+            </td>
+        </tr>
+        <!-- <tr>
             <td>Email Reminder Frequency (in hours):</td>
             <td id="email-interval">
                 {% if tracked_race.email_interval %}
@@ -138,7 +146,7 @@ These are your logistics for: {{ tracked_race.race.event_name }}.
                     <input type="button" name="update-next-email-indicator" id="update-next-email-indicator" value="Update!">
                 </label>
             </td>
-        </tr>
+        </tr> -->
     </table>
 </div>
 <div>

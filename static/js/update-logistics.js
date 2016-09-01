@@ -129,7 +129,7 @@ function updateNeedSubsequentEmailIndicator(results) {
 
 
 function updateNeedSubsequentEmail(evt) {
-    var race_id = $('#race-id').val()
+    var race_id = $('#race-id').val();
     console.log('update need subsequent email');
     $.post('/update_need_subsequent_email/' + race_id, updateNeedSubsequentEmailIndicator);
 }
@@ -137,3 +137,20 @@ function updateNeedSubsequentEmail(evt) {
 
 $('#update-next-email-indicator').click(updateNeedSubsequentEmail);
 
+
+
+//Send email immediately for tracked race confirmation.
+function successfulEmailSent(results) {
+    var status = results;
+    alert(status);
+}
+
+
+function sendEmail(evt) {
+    var race_id = $('#race-id').val();
+    console.log("before AJAX call")
+    $.post('/send_email/' + race_id, successfulEmailSent);
+    console.log("email sent?")
+}
+
+$('#email-notification-button').click(sendEmail);

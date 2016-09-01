@@ -18,7 +18,7 @@
 
 
 <div>
-{% if 'logged_in_user_email' in session %}
+{% if 'user_id' in session %}
     <a href='/add_race/{{ race_id }}'>Click to Track This Race!</a>
 {% endif %}
 </div>

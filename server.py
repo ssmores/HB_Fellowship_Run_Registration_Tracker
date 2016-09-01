@@ -13,6 +13,7 @@ from datetime import datetime
 
 import os
 
+from flask_mail import Mail, Message
 
 
 key = os.environ['FLASK_SECRET']
@@ -21,20 +22,20 @@ app = Flask(__name__)
 app.secret_key = key
 app.jinja_env.undefined = StrictUndefined
 
-# # Information for emailing reminders. To implement later.
-# email_adr = os.environ['MAIL_USERNAME']
-# email_pwd = os.environ['MAIL_PASSWORD']
+# Information for emailing reminders. 
+EMAIL_ADR = os.environ['MAIL_USERNAME']
+EMAIL_PWD = os.environ['MAIL_PASSWORD']
 
-# # email configuration, based on Google settings
-# app.config.update(DEBUG = True,
-#                   MAIL_SERVER = 'smtp.gmail.com',
-#                   MAIL_PORT = 465,
-#                   MAIL_USE_SSL = False,
-#                   MAIL_USE_TLS = True,
-#                   MAIL_USERNAME = email_adr,
-#                   MAIL_PASSWORD = email_pwd)
-# mail = Mail(app)
 
+# email configuration, based on Google settings
+app.config.update(DEBUG=True,
+                  MAIL_SERVER='smtp.gmail.com',
+                  MAIL_PORT=587,
+                  MAIL_USE_SSL=False,
+                  MAIL_USE_TLS=True,
+                  MAIL_USERNAME=EMAIL_ADR,
+                  MAIL_PASSWORD=EMAIL_PWD)
+mail = Mail(app)
 
 
 @app.route('/')
@@ -95,9 +96,7 @@ def login_screen():
     password = request.form.get('password')
 
     # Query user table in database for user_id provided on screen.
-    
     dbuser = User.query.filter(User.user_email == user_email).first()
-    print dbuser.user_id
 
     if dbuser:
         if dbuser.password == password:
@@ -244,7 +243,35 @@ def add_tracked_race(race_id):
         return redirect('/users/' + str(user))
 
 
+@app.route('/send_email/<race_id>', methods=['POST'])
+def send_email_notiification(race_id):
+    """Email function to send email once clicks on button to send email."""
 
+    race = race_id
+    user = session['user_id']
+
+    # Obtain user email address from db.
+    user_details = User.query.filter(User.user_id == user).one()
+    user_email = user_details.user_email
+    user_fname = user_details.user_fname
+
+    # Get information about race to send in email.
+
+    race_detail = Tracked_Race.query.filter(Tracked_Race.race_id == race).one()
+    race_name = race_detail.race.event_name
+    event_date = race_detail.race.event_date
+
+    # Email function to be called at various times.
+    
+    msg = Message('Tracking new race!',
+                  sender=EMAIL_ADR, 
+                  recipients=[user_email])
+    msg.body = ('Hello {}.\nYou have registered for {}. The event date' 
+                'and time is {}.\nHappy running!\n\nCheers!'
+                '\nRun Registration Tracker').format(user_fname, race_name, event_date)
+    mail.send(msg)
+
+    return "Email sent!"
 
 
 @app.route('/update_race_status/<race_id>', methods=['POST'])
@@ -399,8 +426,6 @@ def update_email_interval(race_id):
     return str(new_email_interval)
 
 
-
-
 @app.route('/update_need_subsequent_email/<race_id>', methods=['POST'])
 def update_need_subsequent_email(race_id):
     """Updates race status upon user selection."""
@@ -426,9 +451,6 @@ def update_need_subsequent_email(race_id):
 
     # PUT IN ALL THE REST OF THE CONDITIONS HERE. 
     return True
-
-
-
 
 
 @app.route('/logout')
