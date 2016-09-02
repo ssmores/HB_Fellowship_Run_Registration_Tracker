@@ -464,7 +464,7 @@ def log_out():
 if __name__ == "__main__":
     app.debug = True
     connect_to_db(app)
-
+    app.config['DEBUG_TB_INTERCEPTS_REDIRECTS'] = False
     DebugToolbarExtension(app)
 
     app.run(debug=True, host='0.0.0.0')

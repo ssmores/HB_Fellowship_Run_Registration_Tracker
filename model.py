@@ -40,10 +40,6 @@ class Race(db.Model):
     event_zipcode = db.Column(db.String(20), nullable=True)
     event_lat = db.Column(db.Float, nullable=True)
     event_lng = db.Column(db.Float, nullable=True)
-    # Remove the event_distance.
-    # Need an associative table, that has race_id, distrance_type_id, and the association_id.
-    # Need a distance_type table.
-    # event_distance = db.Column(db.String(200), nullable=True)
     event_url = db.Column(db.String(1000), nullable=True)
 
     tracked_races = db.relationship('Tracked_Race')
@@ -128,14 +124,32 @@ class Race_Distance(db.Model):
     distance_types = db.relationship('Distance_Type')
 
 
+def example_data():
+    """Create sample data for testing."""
+
+    test_user = User(user_fname='Curious',
+                    user_lname='George',
+                    user_email='curious@george.com',
+                    password='abc123')
+    test_race = Race(event_name='Test Race', 
+                     event_date=2016-04-15, 
+                     event_city='Oakland',
+                     event_state='CA',
+                     event_zipcode='94610')
+    test_distance_5k = Distance_Type(distance_length='5k')
+    test_distance_marathon = Distance_Type(distance_length='Marathon')
+
+    db.session.add_all([test_user, test_race, test_distance_5k, test_distance_marathon])
+    db.session.commit()
+    
 
 #########################################################################
 # Helper functions
 
-def connect_to_db(app):
+def connect_to_db(app, db_uri='postgresql:///run_registration_tracking'):
     """Connect to database to our Flask app."""
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///run_registration_tracking'
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_ECHO'] = True #Remove this if I'm not debugging.
     db.app = app
     db.init_app(app)
