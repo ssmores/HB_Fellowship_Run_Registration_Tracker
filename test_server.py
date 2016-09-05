@@ -77,13 +77,6 @@ class FlaskTestsDatabase(unittest.TestCase):
     # def test_successful_login(self):
     #     """User successfully logged in."""
 
-        
-
-
-
-
-
-
 
 
 
@@ -94,4 +87,3 @@ class FlaskTestsDatabase(unittest.TestCase):
 ############################
 if __name__ == "__main__": 
     unittest.main()
-

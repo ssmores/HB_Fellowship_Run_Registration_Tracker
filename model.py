@@ -97,7 +97,7 @@ class Distance_Type(db.Model):
     __tablename__ = 'distance_types'
 
     distance_type_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    distance_length = db.Column(db.String(100), nullable=True)
+    distance_length = db.Column(db.String(100), nullable=True, unique=True)
 
     race_distances  = db.relationship('Race_Distance')
 
@@ -141,7 +141,7 @@ def example_data():
 
     db.session.add_all([test_user, test_race, test_distance_5k, test_distance_marathon])
     db.session.commit()
-    
+
 
 #########################################################################
 # Helper functions
