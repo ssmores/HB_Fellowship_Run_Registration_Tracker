@@ -1,0 +1,34 @@
+body {
+  background-image: url('/static/img/IMG_6466-white.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  color: #000;
+}
+
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-nav li a:hover {
+  color: #F26101;
+}
+
+
+
+
+
+.navbar {
+  background: transparent;
+  border: none;
+  color: red;
+  font-family: 'Quando', serif;
+}
+
+
+h1 {
+    font-family: 'Quando', serif;
+    font-weight: 500;
+    color: black;
+}
+
+
+
+
