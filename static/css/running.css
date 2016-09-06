@@ -1,5 +1,5 @@
 body {
-  background-image: url('/static/img/IMG_6466-white.jpg');
+  background-image: url('/static/img/IMG_6476-large-light.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -12,9 +12,6 @@ body {
 }
 
 
-
-
-
 .navbar {
   background: transparent;
   border: none;
@@ -24,11 +21,21 @@ body {
 
 
 h1 {
-    font-family: 'Quando', serif;
-    font-weight: 500;
+    font-family: 'Quando', serif;   
     color: black;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
 
+div {
+    font-family: 'Open Sans', sans-serif;
+}
 
+p {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    padding-right: 15px;
+    padding-left: 15px;
+}
 

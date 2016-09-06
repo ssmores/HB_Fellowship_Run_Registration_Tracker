@@ -6,13 +6,11 @@
         <!-- Bootstrap -->
         <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css' rel='stylesheet'>
         <!-- Google fonts -->
-
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800|Quando' rel='stylesheet' type='text/css'>
         <!-- Stylesheet -->
-        
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Quando' rel='stylesheet' type='text/css'>
-<!--         <link href='https://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,800,700,900' rel='stylesheet' type='text/css'> -->
         <link href='/static/css/running.css' rel='stylesheet' > 
     </head>
+
     <body>
     <!-- Static navbar -->
     <nav class="navbar navbar-default">
@@ -43,27 +41,12 @@
                     <li><a href='/register'>Register</a></li>
                     <li><a href='/login'>Sign In</a></li>
                 {% endif %}
-                    <!-- <li><a href='/login'>Sign In</a></li> -->
                 </ul>
             </div>
         </div>
     </nav>
-<!-- 
 
 
-
-
-
-        <a href='/'>Search<a>
-
-        {% if 'user_id' in session %}
-            <a href='/logout'>Log Out</a>
-            <a href='/users/{{ session["user_id"] }}'>My Profile</a>
-        {% else %}
-            <a href='/login'>Sign In</a>
-            <a href='/register'>Register</a>
-        {% endif %}
-        <hr> -->
 
         {% for message in get_flashed_messages() %}
             {{ message }}

@@ -1,82 +1,88 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Search for a race:</h1>
+<div class="container-fluid">
+    <div class="row">
+    <h1>Search for a race:</h1>
+    </div>
 
-
-<form action="/search_results" method="GET">
-    <div>
-        <label for="field-city">City:</label>
-        <input type="text" name="city" id="field-city">
+    <div class="row">
+        <form class="col-xs-12 col-md-6 col-lg-6 form-group" action="/search_results" method="GET">
+            <div>
+                <label for="field-city">City:</label>
+                <input type="text" class="form-control" name="city" id="field-city">
+            </div>
+            <div>
+                <label>State:</label>
+                    <select class="form-control" name="state">
+                        <option value="empty_state_value"> </value>
+                        <option value="AL">AL</value>
+                        <option value="AK">AK</value>
+                        <option value="AZ">AZ</value>
+                        <option value="AR">AR</value>
+                        <option value="CA">CA</value>
+                        <option value="CO">CO</value>
+                        <option value="CT">CT</value>
+                        <option value="DE">DE</value>
+                        <option value="FL">FL</value>
+                        <option value="GA">GA</value>
+                        <option value="HI">HI</value>
+                        <option value="ID">ID</value>
+                        <option value="IL">IL</value>
+                        <option value="IN">IN</value>
+                        <option value="IA">IA</value>
+                        <option value="KS">KS</value>
+                        <option value="KY">KY</value>
+                        <option value="LA">LA</value>
+                        <option value="ME">ME</value>
+                        <option value="MD">MD</value>
+                        <option value="MA">MA</value>
+                        <option value="MI">MI</value>
+                        <option value="MN">MN</value>
+                        <option value="MO">MO</value>
+                        <option value="MS">MS</value>
+                        <option value="MT">MT</value>
+                        <option value="NE">NE</value>
+                        <option value="NV">NV</value>
+                        <option value="NH">NH</value>
+                        <option value="NJ">NJ</value>
+                        <option value="NM">NM</value>
+                        <option value="NY">NY</value>
+                        <option value="NC">NC</value>
+                        <option value="ND">ND</value>
+                        <option value="OH">OH</value>
+                        <option value="OK">OK</value>
+                        <option value="OR">OR</value>
+                        <option value="PA">PA</value>
+                        <option value="RI">RI</value>
+                        <option value="SC">SC</value>
+                        <option value="SD">SD</value>
+                        <option value="TN">TN</value>
+                        <option value="TX">TX</value>
+                        <option value="UT">UT</value>
+                        <option value="VT">VT</value>
+                        <option value="VA">VA</value>
+                        <option value="WA">WA</value>
+                        <option value="WV">WV</value>
+                        <option value="WI">WI</value>
+                        <option value="WY">WY</value>
+                </select>
+            </div>
+            <div>
+                <label for="field-zipcode">Zip:</label>
+                <input type="text" class="form-control" name="zipcode" id="field-zipcode">
+            </div>
+            <div>
+                <label for="field-racedistance">Race Distance:</label>
+                <input type="text" class="form-control" name="racedistance" id="field-racedistance">
+            </div>
+            <br>
+            <div>
+                <input type="submit" class="btn btn-default">
+            </div>
+        </form>
     </div>
-    <div>
-        <label>State:</label>
-            <select name="state">
-                <option value="empty_state_value"> </value>
-                <option value="AL">AL</value>
-                <option value="AK">AK</value>
-                <option value="AZ">AZ</value>
-                <option value="AR">AR</value>
-                <option value="CA">CA</value>
-                <option value="CO">CO</value>
-                <option value="CT">CT</value>
-                <option value="DE">DE</value>
-                <option value="FL">FL</value>
-                <option value="GA">GA</value>
-                <option value="HI">HI</value>
-                <option value="ID">ID</value>
-                <option value="IL">IL</value>
-                <option value="IN">IN</value>
-                <option value="IA">IA</value>
-                <option value="KS">KS</value>
-                <option value="KY">KY</value>
-                <option value="LA">LA</value>
-                <option value="ME">ME</value>
-                <option value="MD">MD</value>
-                <option value="MA">MA</value>
-                <option value="MI">MI</value>
-                <option value="MN">MN</value>
-                <option value="MO">MO</value>
-                <option value="MS">MS</value>
-                <option value="MT">MT</value>
-                <option value="NE">NE</value>
-                <option value="NV">NV</value>
-                <option value="NH">NH</value>
-                <option value="NJ">NJ</value>
-                <option value="NM">NM</value>
-                <option value="NY">NY</value>
-                <option value="NC">NC</value>
-                <option value="ND">ND</value>
-                <option value="OH">OH</value>
-                <option value="OK">OK</value>
-                <option value="OR">OR</value>
-                <option value="PA">PA</value>
-                <option value="RI">RI</value>
-                <option value="SC">SC</value>
-                <option value="SD">SD</value>
-                <option value="TN">TN</value>
-                <option value="TX">TX</value>
-                <option value="UT">UT</value>
-                <option value="VT">VT</value>
-                <option value="VA">VA</value>
-                <option value="WA">WA</value>
-                <option value="WV">WV</value>
-                <option value="WI">WI</value>
-                <option value="WY">WY</value>
-        </select>
-    </div>
-    <div>
-        <label for="field-zipcode">Zip:</label>
-        <input type="text" name="zipcode" id="field-zipcode">
-    </div>
-    <div>
-        <label for="field-racedistance">Race Distance:</label>
-        <input type="text" name="racedistance" id="field-racedistance">
-    </div>
-    <div>
-        <input type="submit">
-    </div>
-</form>
+</div>
 
 
 

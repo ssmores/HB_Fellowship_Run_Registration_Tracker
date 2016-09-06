@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<form action='/login' method='POST'>
-    <label for="field-user-email">User ID:</label>
-    <input type='text' name='user-email' id='field-user-email'></input>
-    <br>
-    <label for='field-pasword'>Password:</label>
-    <input type='password' name='password' id='field-password'></input>
-    <br>
-    <input type='submit'></input>
-</form>
+<div class='container-fluid'>
+    <div class='row'>
+        <form class='col-xs-12 col-md-6 col-lg-6 form-group' action='/login' method='POST'>
+            <label for="field-user-email">User Email:</label>
+                <input type='email' class='form-control' name='user-email' id='field-user-email' placeholder='Email'></input>
+            <label for='field-pasword'>Password:</label>
+                <input type='password' class='form-control' name='password' id='field-password' placeholder='Password'></input>
+            <br>
+            <input type='submit' class='btn btn-default'></input>
+        </form>
+    </div>
+</div>
 
 
 {% endblock %}
