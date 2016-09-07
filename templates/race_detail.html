@@ -1,26 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h2>{{ event_name }} </h2>
+<div class='container-fluid'>
+    <h2>{{ event_name }} </h2>
 
-<div>This race is located at {{ event_city }}, {{ event_state }} {{ event_zipcode}}.</div>
+    <div>This race is located at {{ event_city }}, {{ event_state }} {{ event_zipcode}}.</div>
 
-<div>The race starts at {{ event_date }}, which is at {{ event_tzone_offset - event_tzone_DST }} hours from UTC.
-</div>
+    <div>The race starts at {{ event_date }}, which is at {{ event_tzone_offset - event_tzone_DST }} hours from UTC.
+    </div>
+    <br>
+    <div>These are the distances for this race!
+        <ul>{% for distance in distances %}
+            <li> {{ distance.distance_types.distance_length }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 
-<div>These are the distances for this race!
-    <ul>{% for distance in distances %}
-        <li> {{ distance.distance_types.distance_length }}
-        </li>
-        {% endfor %}
-    </ul>
-</div>
 
-
-<div>
-{% if 'user_id' in session %}
-    <a href='/add_race/{{ race_id }}'>Click to Track This Race!</a>
-{% endif %}
+    <div>
+    {% if 'user_id' in session %}
+        <a href='/add_race/{{ race_id }}'>Click to Track This Race!</a>
+    {% else %}
+        You need to be signed in to track this race!
+    {% endif %}
+    </div>
 </div>
 
 {% endblock %}

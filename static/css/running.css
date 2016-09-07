@@ -27,6 +27,16 @@ h1 {
     padding-left: 15px;
 }
 
+h3 {
+    font-family: 'Quando', serif;   
+    color: black;
+}
+
+
+h2 {
+    font-family: 'Quando', serif;   
+    color: black;
+}
 
 div {
     font-family: 'Open Sans', sans-serif;
@@ -37,5 +47,14 @@ p {
     font-weight: 800;
     padding-right: 15px;
     padding-left: 15px;
+}
+
+span {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600; 
+}
+
+a {
+    color:rgb(0, 27, 154);
 }
 

@@ -124,7 +124,6 @@ def show_user_info(user_id):
         user_lname = user_details.user_lname
         user_email = user_details.user_email
         tracked_races = user_details.tracked_races
-        print tracked_races
 
         return render_template('user_detail.html',
                                user_fname=user_fname,
@@ -464,7 +463,7 @@ def log_out():
 if __name__ == "__main__":
     app.debug = True
     connect_to_db(app)
-    app.config['DEBUG_TB_INTERCEPTS_REDIRECTS'] = False
-    DebugToolbarExtension(app)
+    # app.config['DEBUG_TB_INTERCEPTS_REDIRECTS'] = False
+    # DebugToolbarExtension(app)
 
     app.run(debug=True, host='0.0.0.0')

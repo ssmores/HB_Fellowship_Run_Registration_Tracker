@@ -150,7 +150,7 @@ def connect_to_db(app, db_uri='postgresql:///run_registration_tracking'):
     """Connect to database to our Flask app."""
 
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-    app.config['SQLALCHEMY_ECHO'] = True #Remove this if I'm not debugging.
+    # app.config['SQLALCHEMY_ECHO'] = True #Remove this if I'm not debugging.
     db.app = app
     db.init_app(app)
     db.create_all()

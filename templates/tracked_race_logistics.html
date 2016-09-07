@@ -1,155 +1,163 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<div class="container">
+    <input id="race-id" type="hidden" name="race-id" value="{{ tracked_race.race_id }}">
+    <div class="row">
+        <p>
+        These are your logistics for: <span>{{ tracked_race.race.event_name }}.</span>
+        <br>
+        The event is <span>{{ tracked_race.race.event_date }}.</span>
+        <br>
+        Today is <span>{{ timestamp }}.</span>
+        </p>
+    </div>
 
-<input id="race-id" type="hidden" name="race-id" value="{{ tracked_race.race_id }}">
-<p>
-These are your logistics for: {{ tracked_race.race.event_name }}.
-<br>The event is {{ tracked_race.race.event_date }}.  
-<br>Today is {{ timestamp }}.
-</p>
+<!--     <div style="margin-top: 20px;"> -->
+    <div class="table-responsive">
+        <!-- <table style="margin-top: 20px;" border="0"> -->
+        <table class="col-xs-12 col-med-6 col-lg-6 table table-condensed">
+            <tr>
+                <th>Logistics</th>
+                <th>Booked?</th>
+                <th>Change in status?</th>
+            <tr>
+            <tr>
+                <td>Race registration?</td>
+                <td id="race-status">{{ tracked_race.registered_status_indicator }}
+                </td>
+                <td>
+                    <label for="update-race-registration">
+                        <input type="button" name="update-race-registration" id="update-race-registration" value="Update!">
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>Hotel reserved?</td>
+                <td id="hotel-status">{{ tracked_race.hotel_reserved_indicator }}
+                </td>
+                <td>
+                    <label for="update-hotel-status">
+                        <input type="button" name="update-hotel-status" id="update-hotel-status" value="Update!">
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>Airfare reserved?</td>
+                <td id="airfare-status">{{ tracked_race.airfare_reserved_indicator }}
+                </td>
+                <td>
+                    <label for="update-airfare-status">
+                        <input type="button" name="update-airfare-status" id="update-airfare-status" value="Update!">
+                    </lable>
+                </td>
+            </tr>
+            <tr>
+                <td>Transportation?</td>
+                <td id="transportation-status">{{ tracked_race.transportation_reserved_indicator }} </td>
+                <td>
+                    <label for="transportation-status">
+                        <input type="button" name="update-transportation-status" id="update-transportation-status" value="Update!">
+                    </label>
+                </td>
+            </tr>
+        </table>
+    </div>
 
-<div style="margin-top: 20px;">
-    <table style="margin-top: 20px;" border="0">
-        <tr>
-            <th>Logistics</th>
-            <th>Booked?</th>
-            <th>Change in status?</th>
-        <tr>
-        <tr>
-            <td>Race registration?</td>
-            <td id="race-status">{{ tracked_race.registered_status_indicator }}
-            </td>
-            <td>
-                <label for="update-race-registration">
-                    <input type="button" name="update-race-registration" id="update-race-registration" value="Update!">
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <td>Hotel reserved?</td>
-            <td id="hotel-status">{{ tracked_race.hotel_reserved_indicator }}
-            </td>
-            <td>
-                <label for="update-hotel-status">
-                    <input type="button" name="update-hotel-status" id="update-hotel-status" value="Update!">
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <td>Airfare reserved?</td>
-            <td id="airfare-status">{{ tracked_race.airfare_reserved_indicator }}
-            </td>
-            <td>
-                <label for="update-airfare-status">
-                    <input type="button" name="update-airfare-status" id="update-airfare-status" value="Update!">
-                </lable>
-            </td>
-        </tr>
-        <tr>
-            <td>Transportation?</td>
-            <td id="transportation-status">{{ tracked_race.transportation_reserved_indicator }} </td>
-            <td>
-                <label for="transportation-status">
-                    <input type="button" name="update-transportation-status" id="update-transportation-status" value="Update!">
-                </label>
-            </td>
-        </tr>
-    </table>
+    <!-- <div style="margin-top: 20px;"> -->
+    <div class="table-responsive">
+        <table class="col-xs-12 col-med-6 col-lg-6 table table-condensed">
+            <tr>
+                <th>Reminder Information</th>
+                <th>Date, Status, Info</th>
+                <th>New Info?</th>
+                <th>Action?</th>
+            </tr>
+            <tr>
+                <td>First email notification date:
+                </td>
+                <td id='email-start-date'>
+                    {% if tracked_race.email_notification_start_date_at == None %}
+                        No start date set.
+                    {% else %} 
+                        {{ tracked_race.email_notification_start_date_at }}
+                    {% endif %}
+                </td>
+                <td>
+                    <label for="update-email-start-date">
+                        <input type="date" name="update-email-start-date" id="update-email-start-date">
+                    </label>
+                </td>
+                <td>
+                    <label for="update-email-start-date-button">
+                        <input type="button" name="update-email-start-date-button" id="update-email-start-date-button" value="Update!">
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>Last email notification date:</td>
+                <td id="email-end-date">
+                    {% if tracked_race.email_notification_end_date_at == None %}
+                        No end date set.
+                    {% else %} 
+                        {{tracked_race.email_notification_start_date_at}}
+                    {% endif %}
+                </td>
+                <td>
+                    <label for="update-email-end-date">
+                        <input type="date" name="update-email-end-date" id="update-email-end-date">
+                    </label>
+                </td>
+                <td>
+                    <label for="update-email-end-date-button">
+                        <input type="button" name="update-email-end-date-button" id="update-email-end-date-button" value="Update!">
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>Send email now!</td>
+                <td>
+                    <label for="email_-otification-button">
+                        <input type="button" name="email-notification-button" id="email-notification-button" value="Send!">
+                    </label>
+                </td>
+            </tr>
+            <!-- <tr>
+                <td>Email Reminder Frequency (in hours):</td>
+                <td id="email-interval">
+                    {% if tracked_race.email_interval %}
+                        {{tracked_race.email_interval}}
+                    {% else %} 
+                        No hourly interval set.
+                    {% endif %}
+                </td>
+                <td>
+                    <label for="update-email-interval">
+                        <input type="text" name="update-email-interval" id="update-email-interval">
+                    </label>
+                </td>
+                <td>
+                    <label for="update-email-interval-button">
+                        <input type="button" name="update-email-interval-button" id="update-email-interval-button" value="Update!">
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>Next email notification:</td>
+                <td id="next-email-indicator">
+                    {{ tracked_race.need_subsequent_email_indicator }}
+                </td>
+                <td>
+                </td>
+                <td>
+                    <label for="update-next-email-indicator">
+                        <input type="button" name="update-next-email-indicator" id="update-next-email-indicator" value="Update!">
+                    </label>
+                </td>
+            </tr> -->
+        </table>
+    </div>
 </div>
-<div style="margin-top: 20px;">
-    <table>
-        <tr>
-            <th>Reminder Information</th>
-            <th>Date, Status, Info</th>
-            <th>New Info?</th>
-            <th>Action?</th>
-        </tr>
-        <tr>
-            <td>First email notification date:
-            </td>
-            <td id='email-start-date'>
-                {% if tracked_race.email_notification_start_date_at == None %}
-                    No start date set.
-                {% else %} 
-                    {{ tracked_race.email_notification_start_date_at }}
-                {% endif %}
-            </td>
-            <td>
-                <label for="update-email-start-date">
-                    <input type="date" name="update-email-start-date" id="update-email-start-date">
-                </label>
-            </td>
-            <td>
-                <label for="update-email-start-date-button">
-                    <input type="button" name="update-email-start-date-button" id="update-email-start-date-button" value="Update!">
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <td>Last email notification date:</td>
-            <td id="email-end-date">
-                {% if tracked_race.email_notification_end_date_at == None %}
-                    No end date set.
-                {% else %} 
-                    {{tracked_race.email_notification_start_date_at}}
-                {% endif %}
-            </td>
-            <td>
-                <label for="update-email-end-date">
-                    <input type="date" name="update-email-end-date" id="update-email-end-date">
-                </label>
-            </td>
-            <td>
-                <label for="update-email-end-date-button">
-                    <input type="button" name="update-email-end-date-button" id="update-email-end-date-button" value="Update!">
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <td>Send email now!</td>
-            <td>
-                <label for="email_-otification-button">
-                    <input type="button" name="email-notification-button" id="email-notification-button" value="Send!">
-                </label>
-            </td>
-        </tr>
-        <!-- <tr>
-            <td>Email Reminder Frequency (in hours):</td>
-            <td id="email-interval">
-                {% if tracked_race.email_interval %}
-                    {{tracked_race.email_interval}}
-                {% else %} 
-                    No hourly interval set.
-                {% endif %}
-            </td>
-            <td>
-                <label for="update-email-interval">
-                    <input type="text" name="update-email-interval" id="update-email-interval">
-                </label>
-            </td>
-            <td>
-                <label for="update-email-interval-button">
-                    <input type="button" name="update-email-interval-button" id="update-email-interval-button" value="Update!">
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <td>Next email notification:</td>
-            <td id="next-email-indicator">
-                {{ tracked_race.need_subsequent_email_indicator }}
-            </td>
-            <td>
-            </td>
-            <td>
-                <label for="update-next-email-indicator">
-                    <input type="button" name="update-next-email-indicator" id="update-next-email-indicator" value="Update!">
-                </label>
-            </td>
-        </tr> -->
-    </table>
-</div>
-<div>
     
 
 

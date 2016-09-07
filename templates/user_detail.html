@@ -1,38 +1,44 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h3>Welcome, {{ user_fname }}!</h3>
+<div class='container'>
+    <h3>Welcome, {{ user_fname }}!</h3>
 
-<div class='user-info'>
-    This is your information:
+    <div class='user-info'>
+        <div>
+        This is your information:
+        </div>
+        <div>
+        First Name: {{ user_fname }}
+        </div>
+        <div>
+        Last Name:  {{ user_lname }}
+        </div>
+        Email: {{ user_email }}
+    </div>
     <br>
-    First Name: {{ user_fname }}
-    <br>
-    Last Name:  {{ user_lname }}
-    <br>
-    Email: {{ user_email }}
-</div>
-<br>
-<div>
-{% if tracked_races == [] %}
-    You have no upcoming races to think about! Go find some!
-{% else %}
-    Here are the races you're tracking!
-    <table style="margin-top: 20px;" border="1">
-        <tr>
-            <th>Race Name</th>
-            <th>Event Date</th>
-        </tr>
-        {% for tracked_race in tracked_races %}
-        <tr>
-            <td><a href='/tracked_race_logistics/{{ tracked_race.race.race_id }}'>{{ tracked_race.race.event_name }}
-            </td>
-            <td>{{ tracked_race.race.event_date }}</td>
-            
-        </tr>
-        {% endfor %}
-    </table> 
-{% endif %}
+    <div>
+    {% if tracked_races == [] %}
+        You have no upcoming races to think about! Go find some!
+    {% else %}
+        Here are the races you're tracking!
+        <div class='table-responsive'>
+            <table class='col-xs-12 col-med-6 col-lg-6 table table-bordered table-hover table-condensed'>
+                <tr>
+                    <th>Race Name</th>
+                    <th>Event Date</th>
+                </tr>
+                {% for tracked_race in tracked_races %}
+                <tr>
+                    <td><a href='/tracked_race_logistics/{{ tracked_race.race.race_id }}'>{{ tracked_race.race.event_name }}
+                    </td>
+                    <td>{{ tracked_race.race.event_date }}</td>   
+                </tr>
+                {% endfor %}
+            </table> 
+        </div>
+    {% endif %}
+    </div>
 </div>
 
 

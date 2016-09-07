@@ -46,11 +46,16 @@
         </div>
     </nav>
 
-
-
-        {% for message in get_flashed_messages() %}
-            {{ message }}
-        {% endfor %}
+    <div class='container'>
+        <div class='row'>     
+            {% for message in get_flashed_messages() %}
+            <div class='alert alert-info col-xs-3 col-med-3 col-lg3'>
+                {{ message }}
+            </div> 
+            {% endfor %}
+        </div>
+    </div>
+    
 
         {% block content %} CONTENT IS HERE {% endblock %}
 

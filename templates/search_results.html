@@ -1,24 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
 
-Here are the races that meet your parameters:
+<div class="container">
+    <div class="row">
+        <p>
+        Here are the races that meet your parameters:
+        </p>
+    </div>
 
-<table style="margin-top: 20px;" border="1">
-    <tr>
-        <th>Race Name</th>
-        <th>Date</th>
-    </tr>
+    <div class="table-responsive">
+        <table class="col-xs-6 col-med-6 col-lg-6 table table-bordered table-hover table-condensed">
+            <tr>
+                <th class="col-xs-5 col-md-5 col-lg-5">Race Name</th>
+                <th class="col-xs-1 col-md-1 col-lg-1">Date</th>
+            </tr>
 
-    {% for result in results %}
-    <tr>
-        <td> <a href="/search_results/{{result.race_id}}">{{ result.event_name }}</a>
-        </td>
-        <td>{{ result.event_date }}
-        </td>
-    </tr>
-    {% endfor %}
+            {% for result in results %}
+            <tr>
+                <td class="col-xs-5 col-md-5 col-lg-5"> <a href="/search_results/{{result.race_id}}">{{ result.event_name }}</a>
+                </td>
+                <td class="col-xs-1 col-md-1 col-lg-1">{{ result.event_date }}
+                </td>
+            </tr>
+            {% endfor %}
 
-</table>
+        </table>
+    </div>
+</div>
 
 
 {% endblock %}
