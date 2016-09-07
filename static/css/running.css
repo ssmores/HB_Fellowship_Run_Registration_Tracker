@@ -1,5 +1,5 @@
 body {
-  background-image: url('/static/img/IMG_6476-large-light.jpg');
+  background-image: url('/static/img/IMG_6476-large-gray.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -11,7 +11,7 @@ body {
   color: #F26101;
 }
 
-
+    
 .navbar {
   background: transparent;
   border: none;

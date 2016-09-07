@@ -46,14 +46,14 @@
         </div>
     </nav>
 
-    <div class='container'>
-        <div class='row'>     
+    <div class='container-fluid'>
+        <!-- <div class='row'>      -->
             {% for message in get_flashed_messages() %}
-            <div class='alert alert-info col-xs-3 col-med-3 col-lg3'>
+            <div class='alert alert-info'>
                 {{ message }}
             </div> 
             {% endfor %}
-        </div>
+        <!-- </div> -->
     </div>
     
 
